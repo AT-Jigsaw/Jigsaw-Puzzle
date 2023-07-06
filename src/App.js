@@ -1,36 +1,18 @@
-import React, { useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
-// import firebase from "firebase";
-import Login from "./components/Login/Login";
-import Signup from "./components/signup/Signup";
+import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import HomePage from './pages/homepage/HomePage';
+import { Routes, Route } from 'react-router-dom';
+import AdminDashboard from './pages/admindashboard/AdminDashboard';
 
-// Initialize Firebase (replace with your Firebase configuration)
-// const firebaseConfig = {
-//   // Your Firebase config here
-// };
-
-// firebase.initializeApp(firebaseConfig);
-
-const App = () => {
-  // useEffect(() => {
-  //   // Add Firebase authentication state observer
-  //   firebase.auth().onAuthStateChanged((user) => {
-  //     if (user) {
-  //       // User is signed in, perform any necessary actions
-  //       console.log("User is signed in:", user.email);
-  //     } else {
-  //       // User is signed out, perform any necessary actions
-  //       console.log("User is signed out");
-  //     }
-  //   });
-  // }, []);
-
+function App() {
   return (
-    <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
-    </Routes>
+    <div className="App">
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/admin" element={<AdminDashboard />} />
+      </Routes>
+    </div>
   );
-};
+}
 
 export default App;
