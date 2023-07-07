@@ -1,37 +1,58 @@
 import React, { useState } from "react";
 import "./header.css";
-import { Button, Modal } from "react-bootstrap";
-import Login from '../../components/login/Login';
-import Signup from '../../components/signup/Signup'
+import { Modal } from "react-bootstrap";
+import Login from "../../components/login/Login";
+import Signup from "../../components/signup/Signup";
 
-const Header = () => {
+const Header = (props) => {
+  const { isLoggedIn } = props;
   const [showLoginPage, setShowLoginPage] = useState(false);
   const [showSignupPage, setShowSignupPage] = useState(false);
+
+  const handleLogout = () => {};
+
   return (
     <div className="header-root">
-      <Button variant="link" className="header-text">
+      <a href="/" className="header-text">
         Jigsaw Puzzle
-      </Button>
+      </a>
 
       <div className="header-buttons">
-        <button className="pushable" onClick={() => setShowLoginPage(true)}>
-          <span className="shadow"></span>
-          <span className="edge login-edge"></span>
-          <span className="front">
-            <span id="login-button" className="yassified-button">
-              Login
+        {!isLoggedIn ? (
+          <>
+            <button className="pushable" onClick={() => setShowLoginPage(true)}>
+              <span className="auth-shadow"></span>
+              <span className="auth-edge login-edge"></span>
+              <span className="front">
+                <span className="auth-yassified-button login-button">
+                  Login
+                </span>
+              </span>
+            </button>
+            <button
+              className="pushable"
+              onClick={() => setShowSignupPage(true)}
+            >
+              <span className="auth-shadow"></span>
+              <span className="auth-edge signup-edge"></span>
+              <span className="front">
+                <span className="auth-yassified-button signup-button">
+                  Signup
+                </span>
+              </span>
+            </button>
+          </>
+        ) : (
+          <button className="pushable" onClick={handleLogout}>
+            <span className="auth-shadow"></span>
+            <span className="auth-edge"></span>
+            <span className="front">
+              <span className="auth-yassified-button">
+                Logout
+              </span>
             </span>
-          </span>
-        </button>
-        <button className="pushable" onClick={() => setShowSignupPage(true)}>
-          <span className="shadow"></span>
-          <span className="edge signup-edge"></span>
-          <span className="front">
-            <span id="signup-button" className="yassified-button">
-              Signup
-            </span>
-          </span>
-        </button>
+          </button>
+        )}
       </div>
 
       <Modal show={showLoginPage} onHide={() => setShowLoginPage(false)}>

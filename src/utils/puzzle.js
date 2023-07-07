@@ -1,14 +1,18 @@
 import headbreaker from 'headbreaker';
-import { puzzleLinks } from './puzzleLinks'
+import { puzzleLinks } from './puzzleLinks';
 
-export const renderPuzzle = (currentPuzzle, stroke_width, showConfetti) => {
+export const renderPuzzle = (currentPuzzle, showConfetti) => {
+  const isMobileScreen = window.innerWidth < 768;
   let picture = new Image();
   picture.src = puzzleLinks[currentPuzzle];
   picture.onload = () => {
+    let canvasWidth = isMobileScreen ? window.innerWidth * 0.9 : 800 ;
+    let canvasHeight = isMobileScreen ? 300 : 550;
+
     const puzzle_canvas = new headbreaker.Canvas('puzzle_canvas', {
-      width: 800, height: 550,
-      pieceSize: 100, proximity: 20,
-      strokeWidth: stroke_width, strokeColor: '#F0F0F0',
+      width: canvasWidth, height: canvasHeight,
+      pieceSize: isMobileScreen ? 50 : 100, proximity: 20,
+      strokeWidth: isMobileScreen ? 5 : 10, strokeColor: '#F0F0F0',
       image: picture, fixed: true,
       outline: new headbreaker.outline.Rounded(),
       preventOffstageDrag: true

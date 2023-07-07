@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { confetti } from "../../utils/confetti";
 import { renderPuzzle } from "../../utils/puzzle";
+import "./puzzles.css";
 
 const Puzzles = () => {
+  const isMobileScreen = window.innerWidth < 768;
   const [showNextButton, setShowNextButton] = useState(false);
   const [currentPuzzle, setCurrentPuzzle] = useState(0);
 
@@ -13,7 +15,7 @@ const Puzzles = () => {
   };
 
   const loadContent = () => {
-    renderPuzzle(currentPuzzle, 10, showInfo);
+    renderPuzzle(currentPuzzle, showInfo);
   };
 
   useEffect(() => {
@@ -27,8 +29,8 @@ const Puzzles = () => {
 
   return (
     <div className="desktop-display">
-      <div id="container1">
-        <div id="special-box">
+      <div className="puzzle-container">
+        <div className="special-box">
           <div id="puzzle_canvas"></div>
         </div>
         <div>
@@ -36,9 +38,13 @@ const Puzzles = () => {
             <h3>Instructions:</h3>
             <div style={{ width: "300px" }}>
               Complete the puzzle
-              <br />
-              <br />
-              Press <kbd>Shift</kbd> when dragging a clump of puzzle pieces.
+              {!isMobileScreen && (
+                <>
+                  <br />
+                  <br />
+                  Press <kbd>Shift</kbd> when dragging a clump of puzzle pieces.
+                </>
+              )}
             </div>
           </div>
           <div className="buttons">
@@ -46,7 +52,10 @@ const Puzzles = () => {
               <span className="shadow"></span>
               <span className="edge"></span>
               <span className="front">
-                <span id="reset-button" className="yassified-button">
+                <span
+                  id="reset-button"
+                  className="yassified-button reset-button"
+                >
                   Reset
                 </span>
               </span>
@@ -56,14 +65,19 @@ const Puzzles = () => {
                 <span className="shadow"></span>
                 <span className="edge next-edge"></span>
                 <span className="front">
-                  <span id="next-button" className="yassified-button">
+                  <span
+                    id="next-button"
+                    className="yassified-button next-button"
+                  >
                     Next
                   </span>
                 </span>
               </button>
             )}
           </div>
-          <div style={{ height: "50px", width: "1px" }}></div>
+          {!isMobileScreen && (
+            <div style={{ height: "50px", width: "1px" }}></div>
+          )}
         </div>
       </div>
     </div>

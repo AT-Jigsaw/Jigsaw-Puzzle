@@ -1,0 +1,59 @@
+.points-root h2 {
+  width: max-content;
+  font-weight: 600;
+}
+
+.points-root span {
+  border-bottom: 5px solid #463f39;
+  display: block;
+  margin-top: 7px;
+  width: 35%;
+}
+
+.table-container {
+  overflow-x: auto;
+  padding-bottom: 16px;
+}
+
+.points-root table {
+  min-width: 600px;
+  border-collapse: collapse;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.points-root table,
+.points-root table th,
+.points-root table td {
+  border: 1px solid #ddd;
+  padding: 15px;
+}
+
+.points-root table th {
+  background-color: #f2f2f2;
+}
+
+.points-root table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.points-root table tr:hover {
+  background-color: #ddd;
+}
+
+@media only screen and (max-width: 600px) {
+  .points-root h2 {
+    font-size: 18px;
+  }
+
+  .points-root table,
+  .points-root table th,
+  .points-root table td {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .table-container {
+    margin-right: 10px;
+  }
+}
