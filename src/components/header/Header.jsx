@@ -3,13 +3,17 @@ import "./header.css";
 import { Modal } from "react-bootstrap";
 import Login from "../../components/login/Login";
 import Signup from "../../components/signup/Signup";
+import { signOut } from "firebase/auth";
+import { auth } from "../../auth/firebase";
 
 const Header = (props) => {
   const { isLoggedIn } = props;
   const [showLoginPage, setShowLoginPage] = useState(false);
   const [showSignupPage, setShowSignupPage] = useState(false);
 
-  const handleLogout = () => {};
+  const handleLogout = () => {
+    signOut(auth);
+  };
 
   return (
     <div className="header-root">
@@ -47,9 +51,7 @@ const Header = (props) => {
             <span className="auth-shadow"></span>
             <span className="auth-edge"></span>
             <span className="front">
-              <span className="auth-yassified-button">
-                Logout
-              </span>
+              <span className="auth-yassified-button">Logout</span>
             </span>
           </button>
         )}
