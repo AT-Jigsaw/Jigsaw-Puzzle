@@ -1,4 +1,4 @@
-.container {
+.signup-root .container {
   max-width: 400px;
   margin: 0 auto;
   padding: 20px;
@@ -7,24 +7,24 @@
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
-h2 {
+.signup-root h2 {
   text-align: center;
   margin-bottom: 20px;
 }
 
-form {
+.signup-root form {
   display: flex;
   flex-direction: column;
 }
 
-input {
+.signup-root input {
   margin-bottom: 10px;
   padding: 10px;
   border-radius: 3px;
   border: 1px solid #ccc;
 }
 
-button {
+.signup-root button {
   padding: 10px 20px;
   background-color: #4caf50;
   color: #fff;
@@ -33,11 +33,11 @@ button {
   cursor: pointer;
 }
 
-button:hover {
+.signup-root button:hover {
   background-color: #45a049;
 }
 
-.error-message {
+.signup-root .error-message {
   color: red;
   margin-bottom: 10px;
 }

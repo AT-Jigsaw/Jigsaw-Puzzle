@@ -8,8 +8,8 @@ import { auth } from "../../auth/firebase";
 
 const Header = (props) => {
   const { isLoggedIn } = props;
-  const [showLoginPage, setShowLoginPage] = useState(false);
-  const [showSignupPage, setShowSignupPage] = useState(false);
+  const [loginModalOpen, setLoginModalOpen] = useState(false);
+  const [signupModalOpen, setSignupModalOpen] = useState(false);
 
   const handleLogout = () => {
     signOut(auth);
@@ -24,7 +24,7 @@ const Header = (props) => {
       <div className="header-buttons">
         {!isLoggedIn ? (
           <>
-            <button className="pushable" onClick={() => setShowLoginPage(true)}>
+            <button className="pushable" onClick={() => setLoginModalOpen(true)}>
               <span className="auth-shadow"></span>
               <span className="auth-edge login-edge"></span>
               <span className="front">
@@ -35,7 +35,7 @@ const Header = (props) => {
             </button>
             <button
               className="pushable"
-              onClick={() => setShowSignupPage(true)}
+              onClick={() => setSignupModalOpen(true)}
             >
               <span className="auth-shadow"></span>
               <span className="auth-edge signup-edge"></span>
@@ -57,11 +57,11 @@ const Header = (props) => {
         )}
       </div>
 
-      <Modal show={showLoginPage} onHide={() => setShowLoginPage(false)}>
-        <Login />
+      <Modal show={loginModalOpen} onHide={() => setLoginModalOpen(false)}>
+        <Login setLoginModalOpen={setLoginModalOpen}/>
       </Modal>
-      <Modal show={showSignupPage} onHide={() => setShowSignupPage(false)}>
-        <Signup />
+      <Modal show={signupModalOpen} onHide={() => setSignupModalOpen(false)}>
+        <Signup setSignupModalOpen={setSignupModalOpen} />
       </Modal>
     </div>
   );

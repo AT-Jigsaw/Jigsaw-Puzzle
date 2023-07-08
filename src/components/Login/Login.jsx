@@ -2,13 +2,18 @@ import React, { useState } from "react";
 import "./login.css";
 import { auth } from "../../auth/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
-const Login = () => {
+import { toast } from "react-toastify";
+
+const Login = (props) => {
+  const { setLoginModalOpen } = props;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    signInWithEmailAndPassword(auth, email, password);
+    signInWithEmailAndPassword(auth, email, password)
+      .then(() => setLoginModalOpen(false))
+      .catch((error) => toast.error(error));
   };
 
   return (

@@ -1,12 +1,38 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./admin-dashboard.css";
 import { Button, Navbar, Nav } from "react-bootstrap";
 import Points from "../../components/admindashboard/Points";
+import { signOut } from "firebase/auth";
+import { auth, db } from "../../auth/firebase";
+import { useNavigate } from "react-router-dom";
+import { collection, getDocs } from "firebase/firestore";
 
 const AdminDashboard = () => {
+  const navigate = useNavigate();
   const [selectedComponent, setSelectedComponent] = useState("points");
+  const [data, setData] = useState([]);
+  const adminData = data.find((user) => user.email === 'admin@gmail.com')
 
-  const handleLogout = () => {};
+  useEffect(() => {
+    const fetchData = async () => {
+      const querySnapshot = await getDocs(collection(db, "users"));
+      const docs = [];
+      querySnapshot.forEach((doc) => {
+        docs.push({
+          id: doc.id,
+          ...doc.data(),
+        });
+      });
+      setData(docs);
+    };
+
+    fetchData();
+  }, []);
+
+  const handleLogout = () => {
+    signOut(auth);
+    navigate("/");
+  };
 
   return (
     <div className="admin-dashboard-root">
@@ -16,7 +42,9 @@ const AdminDashboard = () => {
         </Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
-          <Navbar.Text className="login-status">Logged in as: {'Test'}</Navbar.Text>
+          <Navbar.Text className="login-status">
+            Logged in as: {adminData?.fullName}
+          </Navbar.Text>
         </Navbar.Collapse>
       </Navbar>
       <div className="columns-container">
@@ -38,7 +66,7 @@ const AdminDashboard = () => {
           </Button>
         </Nav>
         <div className="component-container">
-          {selectedComponent === "points" && <Points />}
+          {selectedComponent === "points" && <Points data={data} />}
         </div>
       </div>
     </div>

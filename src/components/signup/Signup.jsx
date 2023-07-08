@@ -1,31 +1,44 @@
 import React, { useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import "./signup.css";
-import { auth } from "../../auth/firebase";
+import { auth, db } from "../../auth/firebase";
+import { toast } from "react-toastify";
+import { doc, setDoc } from "firebase/firestore";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import axios from "axios";
 
-const Signup = () => {
+const Signup = (props) => {
+  const { setSignupModalOpen } = props;
   const [fullName, setFullName] = useState("");
-  const [mobileNumber, setMobileNumber] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSignup = async (e) => {
     e.preventDefault();
-
+    if (!email || !password)
+      return toast.error("Please enter both email and password");
     try {
-      await createUserWithEmailAndPassword(auth, email, password).then(
-        (userCredential) => {
-          const user = userCredential.user;
-          console.log(user);
-        }
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
       );
+      const user = userCredential.user;
+      const { data } = await axios.get("https://api.ipify.org?format=json");
+      await setDoc(doc(db, "users", user.uid), {
+        fullName: fullName,
+        phoneNumber: phoneNumber,
+        email: email,
+        ipAddress: data.ip,
+      });
+      setSignupModalOpen(false);
     } catch (error) {
-      console.log("Signup error:", error.message);
+      toast.error(error.message);
     }
   };
 
   return (
-    <div>
+    <div className="signup-root">
       <h2>Signup</h2>
       <form onSubmit={handleSignup}>
         <input
@@ -36,10 +49,10 @@ const Signup = () => {
         />
 
         <input
-          type="number"
-          placeholder="Mobile Number"
-          value={email}
-          onChange={(e) => setMobileNumber(e.target.value)}
+          type="tel"
+          placeholder="Phone Number"
+          value={phoneNumber}
+          onChange={(e) => setPhoneNumber(e.target.value)}
         />
 
         <input
@@ -54,9 +67,7 @@ const Signup = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit" onClick={handleSignup}>
-          Signup
-        </button>
+        <button type="submit">Signup</button>
       </form>
     </div>
   );

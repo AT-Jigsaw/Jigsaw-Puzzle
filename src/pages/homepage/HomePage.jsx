@@ -6,20 +6,18 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../auth/firebase";
 
 const HomePage = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState();
+
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setIsLoggedIn(true);
-      } else {
-        setIsLoggedIn(false);
-      }
+      setUser(user);
     });
   }, []);
+
   return (
     <div>
-      <Header isLoggedIn={isLoggedIn} />
-      {isLoggedIn ? <Puzzles /> : <Welcome />}
+      <Header isLoggedIn={user ? true : false} />
+      {user ? <Puzzles /> : <Welcome />}
     </div>
   );
 };

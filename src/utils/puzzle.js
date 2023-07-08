@@ -1,12 +1,14 @@
 import headbreaker from 'headbreaker';
 import { puzzleLinks } from './puzzleLinks';
+import { setDoc, doc, getFirestore } from "firebase/firestore";
+import { auth } from '../auth/firebase';
 
-export const renderPuzzle = (currentPuzzle, showConfetti) => {
+export const renderPuzzle = (currentPuzzle, showConfetti, timer) => {
   const isMobileScreen = window.innerWidth < 768;
   let picture = new Image();
   picture.src = puzzleLinks[currentPuzzle];
   picture.onload = () => {
-    let canvasWidth = isMobileScreen ? window.innerWidth * 0.9 : 800 ;
+    let canvasWidth = isMobileScreen ? window.innerWidth * 0.9 : 800;
     let canvasHeight = isMobileScreen ? 300 : 550;
 
     const puzzle_canvas = new headbreaker.Canvas('puzzle_canvas', {
@@ -20,7 +22,7 @@ export const renderPuzzle = (currentPuzzle, showConfetti) => {
 
     puzzle_canvas.adjustImagesToPuzzleHeight();
     puzzle_canvas.autogenerate({
-      verticalPiecesCount: 4,
+      verticalPiecesCount: 1,
       insertsGenerator: headbreaker.generators.flipflop
     });
 
@@ -49,11 +51,19 @@ export const renderPuzzle = (currentPuzzle, showConfetti) => {
     document.getElementById("reset-button").onclick = () => puzzle_canvas.shuffle(0.8);
     puzzle_canvas.onValid((validator) => complete())
 
-    let complete = () => {
+    let complete = async () => {
       puzzle_canvas.solve();
       puzzle_canvas.redraw();
       showConfetti();
-      currentPuzzle = 1
+      if (currentPuzzle === puzzleLinks.length - 1) {
+        await saveToDatabase(timer);
+      }
+    }
+
+    async function saveToDatabase(timer) {
+      const db = getFirestore();
+      const docRef = doc(db, "users", auth.currentUser.uid);
+      await setDoc(docRef, { timer }, { merge: true });
     }
   }
 };
