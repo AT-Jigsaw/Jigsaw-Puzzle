@@ -8,10 +8,94 @@ import axios from "axios";
 
 const Signup = (props) => {
   const { setSignupModalOpen } = props;
+  const [step, setStep] = useState(1);
+  const [stepType, setStepType] = useState("");
   const [fullName, setFullName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const renderStep1 = () => {
+    const handleStep1Click = (stepType) => {
+      setStepType(stepType);
+      setStep(2);
+    };
+    return (
+      <div>
+        <button onClick={() => handleStep1Click("email")}>
+          Signup with email
+        </button>
+        <button onClick={() => handleStep1Click("phone")}>
+          Signup with phone
+        </button>
+      </div>
+    );
+  };
+
+  const renderStep2 = () => {
+    const handleBackClick = () => {
+      setStepType("");
+      setStep(1);
+    };
+    const handleSubmit = () => {
+      setStep(3);
+    };
+    return (
+      <div>
+        Enter {stepType === "email" ? "Email" : "Phone Number"}
+        {stepType === "phone" ? (
+          <input
+            onChange={(e) => setPhoneNumber(e.target.value)}
+            value={phoneNumber}
+            placeholder="Enter Phone Number"
+          />
+        ) : (
+          <>
+            <input
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+              placeholder="Enter Email Address"
+            />
+            Enter Password
+            <input
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+              placeholder="Enter Password"
+            />
+          </>
+        )}
+        <button onClick={handleSubmit}>Submit</button>
+        <button onClick={handleBackClick}>Back</button>
+      </div>
+    );
+  };
+
+  const renderStep3 = () => {
+    const handleSubmit = () => {};
+    return (
+      <div>
+        <input
+          handleChange={(e) => setFullName(e.target.value)}
+          value={fullName}
+          placeholder="Enter Full Name"
+        />
+        {stepType === "email" ? (
+          <input
+            handleChange={(e) => setPhoneNumber(e.target.value)}
+            value={phoneNumber}
+            placeholder="Enter Phone Number"
+          />
+        ) : (
+          <input
+            handleChange={(e) => setEmail(e.target.value)}
+            value={email}
+            placeholder="Enter Email Address"
+          />
+        )}
+        <button onClick={handleSubmit}>Submit</button>
+      </div>
+    );
+  };
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -40,35 +124,9 @@ const Signup = (props) => {
   return (
     <div className="signup-root">
       <h2>Signup</h2>
-      <form onSubmit={handleSignup}>
-        <input
-          type="text"
-          placeholder="FullName"
-          value={fullName}
-          onChange={(e) => setFullName(e.target.value)}
-        />
-
-        <input
-          type="tel"
-          placeholder="Phone Number"
-          value={phoneNumber}
-          onChange={(e) => setPhoneNumber(e.target.value)}
-        />
-
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button type="submit">Signup</button>
-      </form>
+      {step === 1 && renderStep1()}
+      {step === 2 && renderStep2()}
+      {step === 3 && renderStep3()}
     </div>
   );
 };
