@@ -1,6 +1,93 @@
-.handleLogin {
-  color: aquamarine;
+.login-root {
+  font-family: "Poppins", sans-serif;
+  background-color: #e1e1db;
+  padding: 40px;
+  border-radius: 8px;
 }
-.email {
-  color: red;
+
+.login-root h2 {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.login-step1-root {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  margin: 0 auto;
+  width: 200px;
+}
+
+.login-step1-button {
+  background-color: #3c3c39;
+}
+
+.login-step2-root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 10px;
+}
+
+.login-step2-table {
+  width: max-content;
+  border-collapse: separate;
+  border-spacing: 10px 10px;
+}
+
+.login-step2-buttons {
+  display: flex;
+  column-gap: 12px;
+  margin-top: 10px;
+}
+
+.login-step2-label {
+  font-weight: 500;
+}
+
+.login-step2-input {
+  height: 36px;
+  width: 240px;
+  border-radius: 20px;
+  padding: 4px 16px;
+  border-width: 1px;
+}
+
+.login-step2-input:focus {
+  border-width: 2px;
+}
+
+.login-step2-phone-root {
+  display: flex;
+  align-items: center;
+  column-gap: 4px;
+}
+
+.login-step2-phone-label {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.login-step2-phone-input {
+  width: 160px;
+  padding: 4px 16px;
+  border-width: 1px;
+}
+
+.login-step2-country-code-input {
+  width: 50px;
+  padding: 4px 8px;
+  border-width: 1px;
+}
+
+.login-step2-confirm-otp-root {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.login-step2-otp-input {
+  width: 100%px;
+  padding: 4px 16px;
+  border-width: 1px;
 }

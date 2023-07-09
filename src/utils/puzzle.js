@@ -1,9 +1,7 @@
 import headbreaker from 'headbreaker';
 import { puzzleLinks } from './puzzleLinks';
-import { setDoc, doc, getFirestore } from "firebase/firestore";
-import { auth } from '../auth/firebase';
 
-export const renderPuzzle = (currentPuzzle, showConfetti, timer) => {
+export const renderPuzzle = (currentPuzzle, showConfetti) => {
   const isMobileScreen = window.innerWidth < 768;
   let picture = new Image();
   picture.src = puzzleLinks[currentPuzzle];
@@ -55,15 +53,6 @@ export const renderPuzzle = (currentPuzzle, showConfetti, timer) => {
       puzzle_canvas.solve();
       puzzle_canvas.redraw();
       showConfetti();
-      if (currentPuzzle === puzzleLinks.length - 1) {
-        await saveToDatabase(timer);
-      }
-    }
-
-    async function saveToDatabase(timer) {
-      const db = getFirestore();
-      const docRef = doc(db, "users", auth.currentUser.uid);
-      await setDoc(docRef, { timer }, { merge: true });
     }
   }
 };

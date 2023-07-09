@@ -7,6 +7,7 @@ import { auth } from "../../auth/firebase";
 
 const HomePage = () => {
   const [user, setUser] = useState();
+  const [isSignupComplete, setIsSignupComplete] = useState(true);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -16,8 +17,11 @@ const HomePage = () => {
 
   return (
     <div>
-      <Header isLoggedIn={user ? true : false} />
-      {user ? <Puzzles /> : <Welcome />}
+      <Header
+        isLoggedIn={user ? true : false}
+        setIsSignupComplete={setIsSignupComplete}
+      />
+      {user && isSignupComplete ? <Puzzles /> : <Welcome />}
     </div>
   );
 };

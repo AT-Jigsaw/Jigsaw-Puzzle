@@ -7,7 +7,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "../../auth/firebase";
 
 const Header = (props) => {
-  const { isLoggedIn } = props;
+  const { isLoggedIn, setIsSignupComplete } = props;
   const [loginModalOpen, setLoginModalOpen] = useState(false);
   const [signupModalOpen, setSignupModalOpen] = useState(false);
 
@@ -57,11 +57,11 @@ const Header = (props) => {
         )}
       </div>
 
-      <Modal show={loginModalOpen} onHide={() => setLoginModalOpen(false)}>
-        <Login setLoginModalOpen={setLoginModalOpen}/>
+      <Modal show={loginModalOpen} onHide={() => setLoginModalOpen(false)} centered>
+        <Login setLoginModalOpen={setLoginModalOpen} />
       </Modal>
-      <Modal show={signupModalOpen} onHide={() => setSignupModalOpen(false)}>
-        <Signup setSignupModalOpen={setSignupModalOpen} />
+      <Modal show={signupModalOpen} onHide={() => setSignupModalOpen(false)} centered>
+        <Signup setSignupModalOpen={setSignupModalOpen} setIsSignupComplete={setIsSignupComplete} />
       </Modal>
     </div>
   );

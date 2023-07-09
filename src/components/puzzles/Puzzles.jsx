@@ -6,6 +6,7 @@ import { Modal } from "react-bootstrap";
 import { puzzleLinks } from "../../utils/puzzleLinks";
 import { signOut } from "firebase/auth";
 import { auth } from "../../auth/firebase";
+import { doc, getFirestore, setDoc } from "firebase/firestore";
 
 const Puzzles = () => {
   const isMobileScreen = window.innerWidth < 768;
@@ -33,7 +34,7 @@ const Puzzles = () => {
   };
 
   const loadContent = () => {
-    renderPuzzle(currentPuzzle, showInfo, timer);
+    renderPuzzle(currentPuzzle, showInfo);
   };
 
   const startTimer = () => {
@@ -56,18 +57,25 @@ const Puzzles = () => {
         clearInterval(intervalId);
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stopTimer]);
 
   useEffect(() => {
     loadContent();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPuzzle]);
 
-  const handleNextClick = () => {
+  const saveToDatabase = async (timer) => {
+    const db = getFirestore();
+    const docRef = doc(db, "users", auth.currentUser.uid);
+    await setDoc(docRef, { timer }, { merge: true });
+  };
+  
+  const handleNextClick = async () => {
     setCurrentPuzzle(currentPuzzle + 1);
     setShowNextButton(false);
     if (currentPuzzle === puzzleLinks.length - 1) {
+      await saveToDatabase(timer);
       signOut(auth);
     }
   };
@@ -136,7 +144,7 @@ const Puzzles = () => {
                     className="yassified-button next-button"
                   >
                     {currentPuzzle === puzzleLinks.length - 1
-                      ? "Complete"
+                      ? "Submit"
                       : "Next"}
                   </span>
                 </span>
