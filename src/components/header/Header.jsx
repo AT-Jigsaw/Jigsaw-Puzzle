@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./header.css";
 import { Modal } from "react-bootstrap";
-import Login from "../../components/login/Login";
+import Login from "../../components/Login/Login";
 import Signup from "../../components/signup/Signup";
 import { signOut } from "firebase/auth";
 import { auth } from "../../auth/firebase";
@@ -24,7 +24,10 @@ const Header = (props) => {
       <div className="header-buttons">
         {!isLoggedIn ? (
           <>
-            <button className="pushable" onClick={() => setLoginModalOpen(true)}>
+            <button
+              className="pushable"
+              onClick={() => setLoginModalOpen(true)}
+            >
               <span className="auth-shadow"></span>
               <span className="auth-edge login-edge"></span>
               <span className="front">
@@ -57,11 +60,22 @@ const Header = (props) => {
         )}
       </div>
 
-      <Modal show={loginModalOpen} onHide={() => setLoginModalOpen(false)} centered>
+      <Modal
+        show={loginModalOpen}
+        onHide={() => setLoginModalOpen(false)}
+        centered
+      >
         <Login setLoginModalOpen={setLoginModalOpen} />
       </Modal>
-      <Modal show={signupModalOpen} onHide={() => setSignupModalOpen(false)} centered>
-        <Signup setSignupModalOpen={setSignupModalOpen} setIsSignupComplete={setIsSignupComplete} />
+      <Modal
+        show={signupModalOpen}
+        onHide={() => setSignupModalOpen(false)}
+        centered
+      >
+        <Signup
+          setSignupModalOpen={setSignupModalOpen}
+          setIsSignupComplete={setIsSignupComplete}
+        />
       </Modal>
     </div>
   );
