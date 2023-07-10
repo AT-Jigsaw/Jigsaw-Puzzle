@@ -7,7 +7,7 @@
 }
 
 .special-box {
-  background-color: aliceblue;
+  background: url("../../assets/puzzle-bg.jpg");
   padding: 5pt;
   margin-right: 30pt;
   border: 2pt solid rgb(19, 17, 17);

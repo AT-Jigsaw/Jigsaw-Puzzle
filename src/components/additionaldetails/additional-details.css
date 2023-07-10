@@ -1,0 +1,28 @@
+.additional-details-root {
+  font-family: "Poppins", sans-serif;
+  background-color: #e1e1db;
+  padding: 40px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 10px;
+}
+
+.additional-details-table {
+  width: max-content;
+  border-collapse: separate;
+  border-spacing: 10px 10px;
+}
+
+.additional-details-label {
+  font-weight: 500;
+}
+
+.additional-details-input {
+  height: 36px;
+  width: 240px;
+  border-radius: 20px;
+  padding: 4px 16px;
+  border-width: 1px;
+}

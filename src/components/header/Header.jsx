@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import "./header.css";
 import { Modal } from "react-bootstrap";
-import Login from "../../components/Login/Login";
+import Login from "../Login/Login";
 import Signup from "../../components/signup/Signup";
 import { signOut } from "firebase/auth";
 import { auth } from "../../auth/firebase";
 
 const Header = (props) => {
-  const { isLoggedIn, setIsSignupComplete } = props;
+  const { isLoggedIn } = props;
   const [loginModalOpen, setLoginModalOpen] = useState(false);
   const [signupModalOpen, setSignupModalOpen] = useState(false);
 
@@ -74,7 +74,6 @@ const Header = (props) => {
       >
         <Signup
           setSignupModalOpen={setSignupModalOpen}
-          setIsSignupComplete={setIsSignupComplete}
         />
       </Modal>
     </div>

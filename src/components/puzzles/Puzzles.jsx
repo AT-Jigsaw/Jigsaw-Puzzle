@@ -4,9 +4,9 @@ import { renderPuzzle } from "../../utils/puzzle";
 import "./puzzles.css";
 import { Modal } from "react-bootstrap";
 import { puzzleLinks } from "../../utils/puzzleLinks";
-import { signOut } from "firebase/auth";
 import { auth } from "../../auth/firebase";
 import { doc, getFirestore, setDoc } from "firebase/firestore";
+import AdditionalDetails from "../additionaldetails/AdditionalDetails";
 
 const Puzzles = () => {
   const isMobileScreen = window.innerWidth < 768;
@@ -16,6 +16,8 @@ const Puzzles = () => {
   const [timer, setTimer] = useState(0);
   const [intervalId, setIntervalId] = useState(null);
   const [stopTimer, setStopTimer] = useState(false);
+  const [showAdditionalDetailsModal, setShowAdditionalDetailsModal] =
+    useState(false);
 
   const formatTime = () => {
     const hours = Math.floor(timer / 3600);
@@ -70,13 +72,14 @@ const Puzzles = () => {
     const docRef = doc(db, "users", auth.currentUser.uid);
     await setDoc(docRef, { timer }, { merge: true });
   };
-  
+
   const handleNextClick = async () => {
-    setCurrentPuzzle(currentPuzzle + 1);
-    setShowNextButton(false);
-    if (currentPuzzle === puzzleLinks.length - 1) {
+    if (currentPuzzle !== puzzleLinks.length - 1) {
+      setCurrentPuzzle(currentPuzzle + 1);
+      setShowNextButton(false);
+    } else {
+      setShowAdditionalDetailsModal(true);
       await saveToDatabase(timer);
-      signOut(auth);
     }
   };
 
@@ -156,6 +159,14 @@ const Puzzles = () => {
           )}
         </div>
       </div>
+      <Modal
+        show={showAdditionalDetailsModal}
+        centered
+        backdrop="static"
+        keyboard={false}
+      >
+        <AdditionalDetails />
+      </Modal>
     </div>
   );
 };
