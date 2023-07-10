@@ -18,7 +18,7 @@ const HomePage = () => {
   return (
     <div>
       <Header
-        isLoggedIn={user ? true : false}
+        isLoggedIn={user && isSignupComplete ? true : false}
         setIsSignupComplete={setIsSignupComplete}
       />
       {user && isSignupComplete ? <Puzzles /> : <Welcome />}

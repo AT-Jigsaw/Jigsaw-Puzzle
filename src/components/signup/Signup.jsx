@@ -3,7 +3,14 @@ import { PhoneNumberUtil } from "google-libphonenumber";
 import "./signup.css";
 import { auth, db } from "../../auth/firebase";
 import { toast } from "react-toastify";
-import { doc, setDoc } from "firebase/firestore";
+import {
+  doc,
+  setDoc,
+  query,
+  collection,
+  where,
+  getDocs,
+} from "firebase/firestore";
 import {
   signInWithPhoneNumber,
   RecaptchaVerifier,
@@ -37,7 +44,17 @@ const Signup = (props) => {
 
   const renderStep1 = () => {
     setIsSignupComplete(false);
-    const handleStep1Click = (stepType) => {
+    const handleStep1Click = async (stepType) => {
+      const { data } = await axios.get("https://api.ipify.org?format=json");
+      const q = query(
+        collection(db, "users"),
+        where("ipAddress", "==", data.ip)
+      );
+      const userSnap = await getDocs(q);
+      if (userSnap.size) {
+        setSignupModalOpen(false);
+        return toast.error("You have already signed up from this IP address.");
+      }
       setStepType(stepType);
       setStep(2);
     };
