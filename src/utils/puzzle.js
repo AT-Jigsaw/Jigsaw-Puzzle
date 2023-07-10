@@ -20,7 +20,7 @@ export const renderPuzzle = (currentPuzzle, showConfetti) => {
 
     puzzle_canvas.adjustImagesToPuzzleHeight();
     puzzle_canvas.autogenerate({
-      verticalPiecesCount: 1,
+      verticalPiecesCount: 4,
       insertsGenerator: headbreaker.generators.flipflop
     });
 
