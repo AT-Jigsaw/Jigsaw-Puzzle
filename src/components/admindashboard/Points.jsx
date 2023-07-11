@@ -1,12 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import "./points.css";
 
 const Points = (props) => {
+  const [sortOrder, setSortOrder] = useState(true);
   const { data } = props;
+
+  data.forEach((item) => {
+    if (!item.hasOwnProperty("timer")) {
+      item.timer = Infinity;
+    }
+  });
+
+  const sortedData = [...data].sort((a, b) =>
+    sortOrder ? a.timer - b.timer : b.timer - a.timer
+  );
+
+  const toggleSortOrder = () => {
+    setSortOrder(!sortOrder);
+  };
+
   return (
     <div className="points-root">
       <h2>
-        Reports<span></span>
+        Points<span></span>
       </h2>
       <div className="table-container">
         <table>
@@ -16,22 +32,26 @@ const Points = (props) => {
               <th>Email Address</th>
               <th>Phone Number</th>
               <th>IP Address</th>
-              <th>Time (in seconds)</th>
+              <th onClick={toggleSortOrder} style={{ cursor: "pointer" }}>
+                Time (in seconds){sortOrder === false ? "↓" : "↑"}
+              </th>
             </tr>
           </thead>
           <tbody>
-            {data.map((row) => {
-              if (row.email !== "admin@gmail.com")
+            {sortedData.map((row) => {
+              if (row.email !== "admin@gmail.com") {
                 return (
                   <tr key={row.id}>
                     <td>{row.fullName}</td>
                     <td>{row.email}</td>
                     <td>{row.phoneNumber}</td>
                     <td>{row.ipAddress}</td>
-                    <td>{row.timer}</td>
+                    <td>{row.timer === Infinity ? "N/A" : row.timer}</td>
                   </tr>
                 );
-              else return <></>;
+              } else {
+                return null;
+              }
             })}
           </tbody>
         </table>
