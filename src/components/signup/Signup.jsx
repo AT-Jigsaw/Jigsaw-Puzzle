@@ -18,6 +18,7 @@ import {
 } from "firebase/auth";
 import axios from "axios";
 import { Button } from "react-bootstrap";
+import Loader from "../loader/Loader";
 
 const Signup = (props) => {
   const { setSignupModalOpen } = props;
@@ -30,23 +31,33 @@ const Signup = (props) => {
   const [codeSent, setCodeSent] = useState(false);
   const [confirmOtp, setConfirmOtp] = useState("");
   const [confirmationResult, setConfirmationResult] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const phoneUtil = PhoneNumberUtil.getInstance();
 
   const renderStep1 = () => {
     const handleStep1Click = async (stepType) => {
-      const { data } = await axios.get("https://api.ipify.org?format=json");
-      const q = query(
-        collection(db, "users"),
-        where("ipAddress", "==", data.ip)
-      );
-      const userSnap = await getDocs(q);
-      if (userSnap.size) {
-        setSignupModalOpen(false);
-        return toast.error("You have already signed up from this IP address.");
+      try {
+        setIsLoading(true);
+        const { data } = await axios.get("https://api.ipify.org?format=json");
+        const q = query(
+          collection(db, "users"),
+          where("ipAddress", "==", data.ip)
+        );
+        const userSnap = await getDocs(q);
+        // if (userSnap.size) {
+        //   setSignupModalOpen(false);
+        //   return toast.error(
+        //     "You have already signed up from this IP address."
+        //   );
+        // }
+        setStepType(stepType);
+        setStep(2);
+      } catch (error) {
+        toast.error(error.message);
+      } finally {
+        setIsLoading(false);
       }
-      setStepType(stepType);
-      setStep(2);
     };
     return (
       <div className="signup-step1-root">
@@ -80,18 +91,26 @@ const Signup = (props) => {
       const isValidNumber = phoneUtil.isValidNumber(
         phoneUtil.parse(phoneNumberToVerify)
       );
-
+    
       if (!isValidNumber) {
         return toast.error("Invalid phone number.");
       }
-
-      const appVerifier = new RecaptchaVerifier(
-        "recaptcha-container",
-        {},
-        auth
-      );
-
+    
       try {
+        setIsLoading(true);
+        const appVerifier = new RecaptchaVerifier(
+          "recaptcha-container",
+          {},
+          auth
+        );
+        appVerifier.render().then(function(widgetId) {
+         setIsLoading(false);
+        }).catch(function(error) {
+          console.error(error);
+          toast.error("Failed to render recaptcha verifier.");
+          setIsLoading(false);
+        });
+        appVerifier.verify().then(() => setIsLoading(true))
         const result = await signInWithPhoneNumber(
           auth,
           phoneNumberToVerify,
@@ -102,33 +121,47 @@ const Signup = (props) => {
       } catch (error) {
         console.log(error);
         toast.error("Failed to send verification code.");
-        setSignupModalOpen(false)
+      } finally {
+        setIsLoading(false);
       }
     };
+    
 
     const saveToDatabase = async (user) => {
-      const { data } = await axios.get("https://api.ipify.org?format=json");
-      await setDoc(doc(db, "users", user.uid), {
-        phoneNumber: phoneNumber,
-        ipAddress: data.ip,
-      });
+      try {
+        setIsLoading(true);
+        const { data } = await axios.get("https://api.ipify.org?format=json");
+        await setDoc(doc(db, "users", user.uid), {
+          phoneNumber: phoneNumber,
+          ipAddress: data.ip,
+        });
+      } catch (error) {
+        toast.error(error.message);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     const handleOtpConfirmation = async (e) => {
       e.preventDefault();
       try {
+        setIsLoading(true);
+        setSignupModalOpen(false);
         const userCredential = await confirmationResult.confirm(confirmOtp);
         const { user } = userCredential;
         if (user) saveToDatabase(user);
         setCodeSent(false);
-        setSignupModalOpen(false);
       } catch (error) {
         toast.error("Invalid OTP, please try again.");
+      } finally {
+        setIsLoading(false);
       }
     };
 
     const handleSubmit = async () => {
       try {
+        setIsLoading(true);
+        setSignupModalOpen(false);
         const { user } = await createUserWithEmailAndPassword(
           auth,
           email,
@@ -139,9 +172,10 @@ const Signup = (props) => {
           email: email,
           ipAddress: data.ip,
         });
-        setSignupModalOpen(false);
       } catch (error) {
         toast.error(error.message);
+      } finally {
+        setIsLoading(false);
       }
     };
     return (
@@ -202,13 +236,6 @@ const Signup = (props) => {
                       type="submit"
                     >
                       Confirm OTP
-                    </Button>
-                    <Button
-                      className="signup-step2-button"
-                      variant="danger"
-                      onClick={handleBackClick}
-                    >
-                      Back
                     </Button>
                   </div>
                 </div>
@@ -272,6 +299,7 @@ const Signup = (props) => {
 
   return (
     <div className="signup-root">
+      <Loader isLoading={isLoading} />
       <h2>Signup</h2>
       {step === 1 && renderStep1()}
       {step === 2 && renderStep2()}

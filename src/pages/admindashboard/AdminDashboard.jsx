@@ -6,24 +6,34 @@ import { signOut } from "firebase/auth";
 import { auth, db } from "../../auth/firebase";
 import { useNavigate } from "react-router-dom";
 import { collection, getDocs } from "firebase/firestore";
+import { toast } from "react-toastify";
+import Loader from "../../components/loader/Loader";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const [selectedComponent, setSelectedComponent] = useState("points");
   const [data, setData] = useState([]);
-  const adminData = data.find((user) => user.email === 'admin@gmail.com')
+  const [isLoading, setIsLoading] = useState(false);
+  const adminData = data.find((user) => user.email === "admin@gmail.com");
 
   useEffect(() => {
     const fetchData = async () => {
-      const querySnapshot = await getDocs(collection(db, "users"));
-      const docs = [];
-      querySnapshot.forEach((doc) => {
-        docs.push({
-          id: doc.id,
-          ...doc.data(),
+      try {
+        setIsLoading(true);
+        const querySnapshot = await getDocs(collection(db, "users"));
+        const docs = [];
+        querySnapshot.forEach((doc) => {
+          docs.push({
+            id: doc.id,
+            ...doc.data(),
+          });
         });
-      });
-      setData(docs);
+        setData(docs);
+      } catch (error) {
+        toast.message(error.message);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     fetchData();
@@ -36,6 +46,7 @@ const AdminDashboard = () => {
 
   return (
     <div className="admin-dashboard-root">
+      <Loader isLoading={isLoading} />
       <Navbar bg="dark" variant="dark" className="admin-dashboard-header">
         <Navbar.Brand href="/admin" className="fs-3">
           Admin Dashboard

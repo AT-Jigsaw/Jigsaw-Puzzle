@@ -9,6 +9,7 @@ import {
 import { toast } from "react-toastify";
 import { PhoneNumberUtil } from "google-libphonenumber";
 import { Button } from "react-bootstrap";
+import Loader from "../loader/Loader";
 
 const phoneUtil = PhoneNumberUtil.getInstance();
 
@@ -23,6 +24,7 @@ const Login = (props) => {
   const [codeSent, setCodeSent] = useState(false);
   const [confirmOtp, setConfirmOtp] = useState("");
   const [confirmationResult, setConfirmationResult] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const auth = getAuth();
 
@@ -74,6 +76,7 @@ const Login = (props) => {
       );
 
       try {
+        setIsLoading(true);
         const result = await signInWithPhoneNumber(
           auth,
           phoneNumberToVerify,
@@ -83,26 +86,34 @@ const Login = (props) => {
         setCodeSent(true);
       } catch (error) {
         toast.error("Failed to send verification code.");
+      } finally {
+        setIsLoading(false);
       }
     };
 
     const handleOtpConfirmation = async (e) => {
       e.preventDefault();
       try {
+        setIsLoading(true);
         await confirmationResult.confirm(confirmOtp);
         setPhoneNumber("");
         setCodeSent(false);
         setLoginModalOpen(false);
       } catch (error) {
         toast.error("Invalid OTP, please try again.");
+      } finally {
+        setIsLoading(false);
       }
     };
     const handleSubmit = async () => {
       try {
+        setIsLoading(true);
         await signInWithEmailAndPassword(auth, email, password);
         setLoginModalOpen(false);
       } catch (error) {
         toast.error(error.message);
+      } finally {
+        setIsLoading(false);
       }
     };
     return (
@@ -233,6 +244,7 @@ const Login = (props) => {
 
   return (
     <div className="login-root">
+      <Loader isLoading={isLoading} />
       <h2>Login</h2>
       {step === 1 && renderStep1()}
       {step === 2 && renderStep2()}

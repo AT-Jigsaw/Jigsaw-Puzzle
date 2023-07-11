@@ -6,6 +6,7 @@ import { auth, db } from "../../auth/firebase";
 import { toast } from "react-toastify";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import "./additional-details.css";
+import Loader from "../loader/Loader";
 
 const AdditionalDetails = () => {
   const [user, setUser] = useState();
@@ -15,28 +16,36 @@ const AdditionalDetails = () => {
   const [isFullNameDisabled, setIsFullNameDisabled] = useState(false);
   const [isEmailDisabled, setIsEmailDisabled] = useState(false);
   const [isPhoneNumberDisabled, setIsPhoneNumberDisabled] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         setUser(user);
         const docRef = doc(db, "users", user.uid);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          const data = docSnap.data();
-          console.log(data);
-          if (data.fullName) {
-            setFullName(data.fullName);
-            setIsFullNameDisabled(true);
+        try {
+          setIsLoading(true);
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            console.log(data);
+            if (data.fullName) {
+              setFullName(data.fullName);
+              setIsFullNameDisabled(true);
+            }
+            if (data.email) {
+              setEmail(data.email);
+              setIsEmailDisabled(true);
+            }
+            if (data.phoneNumber) {
+              setPhoneNumber(data.phoneNumber);
+              setIsPhoneNumberDisabled(true);
+            }
           }
-          if (data.email) {
-            setEmail(data.email);
-            setIsEmailDisabled(true);
-          }
-          if (data.phoneNumber) {
-            setPhoneNumber(data.phoneNumber);
-            setIsPhoneNumberDisabled(true);
-          }
+        } catch (error) {
+          toast.error(error.message);
+        } finally {
+          setIsLoading(false);
         }
       }
     });
@@ -45,6 +54,7 @@ const AdditionalDetails = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setIsLoading(true);
       const { data } = await axios.get("https://api.ipify.org?format=json");
       await setDoc(
         doc(db, "users", user.uid),
@@ -59,11 +69,14 @@ const AdditionalDetails = () => {
       signOut(auth);
     } catch (error) {
       toast.error(error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <div className="additional-details-root">
+      <Loader isLoading={isLoading} />
       <table className="additional-details-table">
         <tbody>
           <tr>

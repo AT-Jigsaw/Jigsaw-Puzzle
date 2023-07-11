@@ -7,6 +7,8 @@ import { puzzleLinks } from "../../utils/puzzleLinks";
 import { auth } from "../../auth/firebase";
 import { doc, getFirestore, setDoc } from "firebase/firestore";
 import AdditionalDetails from "../additionaldetails/AdditionalDetails";
+import { toast } from "react-toastify";
+import Loader from "../loader/Loader";
 
 const Puzzles = () => {
   const isMobileScreen = window.innerWidth < 768;
@@ -18,6 +20,7 @@ const Puzzles = () => {
   const [stopTimer, setStopTimer] = useState(false);
   const [showAdditionalDetailsModal, setShowAdditionalDetailsModal] =
     useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const formatTime = () => {
     const hours = Math.floor(timer / 3600);
@@ -70,7 +73,14 @@ const Puzzles = () => {
   const saveToDatabase = async (timer) => {
     const db = getFirestore();
     const docRef = doc(db, "users", auth.currentUser.uid);
-    await setDoc(docRef, { timer }, { merge: true });
+    try {
+      setIsLoading(true);
+      await setDoc(docRef, { timer }, { merge: true });
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleNextClick = async () => {
@@ -79,7 +89,14 @@ const Puzzles = () => {
       setShowNextButton(false);
     } else {
       setShowAdditionalDetailsModal(true);
-      await saveToDatabase(timer);
+      try {
+        setIsLoading(true);
+        await saveToDatabase(timer);
+      } catch (error) {
+        toast.error(error.message);
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -90,6 +107,7 @@ const Puzzles = () => {
 
   return (
     <div className="desktop-display">
+      <Loader isLoading={isLoading}/>
       <Modal show={modalVisible} centered backdrop="static" keyboard={false}>
         <div className="start-now-modal">
           <div className="h2">Start Puzzle</div>
