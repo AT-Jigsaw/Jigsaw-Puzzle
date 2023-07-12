@@ -11,7 +11,7 @@ export const renderPuzzleOne = (showConfetti) => {
 
     const puzzle_canvas = new headbreaker.Canvas('puzzle_canvas_1', {
       width: canvasWidth, height: canvasHeight,
-      pieceSize: isMobileScreen ? 70 : 250, proximity: 20,
+      pieceSize: isMobileScreen ? 70 : 200, proximity: 20,
       image: picture, fixed: true,
       outline: new headbreaker.outline.Rounded(),
       preventOffstageDrag: true
