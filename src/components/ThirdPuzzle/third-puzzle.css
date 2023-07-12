@@ -1,0 +1,22 @@
+.puzzle-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.special-box {
+  background-image: url("../../assets/puzzle-bg.jpg");
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  padding: 5pt;
+  margin-right: 30pt;
+  border: 2pt solid rgb(19, 17, 17);
+}
+
+@media only screen and (max-width: 768px) {
+  .special-box {
+    margin-right: 0;
+  }
+}

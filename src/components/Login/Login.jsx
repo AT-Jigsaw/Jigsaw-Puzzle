@@ -1,253 +1,101 @@
 import React, { useState } from "react";
 import "./login.css";
-import {
-  RecaptchaVerifier,
-  getAuth,
-  signInWithEmailAndPassword,
-  signInWithPhoneNumber,
-} from "firebase/auth";
-import { toast } from "react-toastify";
-import { PhoneNumberUtil } from "google-libphonenumber";
-import { Button } from "react-bootstrap";
 import Loader from "../loader/Loader";
-
-const phoneUtil = PhoneNumberUtil.getInstance();
+import { Button } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUnlockKeyhole, faUser } from "@fortawesome/free-solid-svg-icons";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../auth/firebase";
+import { toast } from "react-toastify";
+import { doc, getDoc, getFirestore } from "firebase/firestore";
 
 const Login = (props) => {
-  const { setLoginModalOpen } = props;
-  const [step, setStep] = useState(1);
-  const [stepType, setStepType] = useState("");
-  const [email, setEmail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [countryCode, setCountryCode] = useState("+91");
-  const [password, setPassword] = useState("");
-  const [codeSent, setCodeSent] = useState(false);
-  const [confirmOtp, setConfirmOtp] = useState("");
-  const [confirmationResult, setConfirmationResult] = useState(null);
+  const { setLoginModalOpen, setSignupModalOpen } = props;
   const [isLoading, setIsLoading] = useState(false);
-
-  const auth = getAuth();
-
-  const renderStep1 = () => {
-    const handleStep1Click = (stepType) => {
-      setStepType(stepType);
-      setStep(2);
-    };
-    return (
-      <div className="login-step1-root">
-        <Button
-          className="login-step1-button"
-          variant="dark"
-          onClick={() => handleStep1Click("email")}
-        >
-          Login with email
-        </Button>
-        <Button
-          className="login-step1-button"
-          variant="dark"
-          onClick={() => handleStep1Click("phone")}
-        >
-          Login with phone
-        </Button>
-      </div>
-    );
-  };
-
-  const renderStep2 = () => {
-    const handleBackClick = () => {
-      setStepType("");
-      setStep(1);
-    };
-    const handlePhoneSignup = async (e) => {
-      e.preventDefault();
-      const phoneNumberToVerify = `${countryCode}${phoneNumber}`;
-      const isValidNumber = phoneUtil.isValidNumber(
-        phoneUtil.parse(phoneNumberToVerify)
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const handleLogin = async () => {
+    try {
+      setIsLoading(true);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
       );
+      const userId = userCredential.user.uid;
+      const firestore = getFirestore();
+      const userDocRef = doc(firestore, "users", userId);
+      const userDocSnap = await getDoc(userDocRef);
 
-      if (!isValidNumber) {
-        return toast.error("Invalid phone number.");
+      if (userDocSnap.exists()) {
+        const userData = userDocSnap.data();
+        if (userData.timer > 0) {
+          throw new Error("You have already solved the puzzles");
+        }
       }
-
-      const appVerifier = new RecaptchaVerifier(
-        "recaptcha-container",
-        {},
-        auth
-      );
-
-      try {
-        setIsLoading(true);
-        const result = await signInWithPhoneNumber(
-          auth,
-          phoneNumberToVerify,
-          appVerifier
-        );
-        setConfirmationResult(result);
-        setCodeSent(true);
-      } catch (error) {
-        toast.error("Failed to send verification code.");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    const handleOtpConfirmation = async (e) => {
-      e.preventDefault();
-      try {
-        setIsLoading(true);
-        await confirmationResult.confirm(confirmOtp);
-        setPhoneNumber("");
-        setCodeSent(false);
-        setLoginModalOpen(false);
-      } catch (error) {
-        toast.error("Invalid OTP, please try again.");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    const handleSubmit = async () => {
-      try {
-        setIsLoading(true);
-        await signInWithEmailAndPassword(auth, email, password);
-        setLoginModalOpen(false);
-      } catch (error) {
-        toast.error(error.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    return (
-      <div className="login-step2-root">
-        {stepType === "email" ? (
-          <>
-            <table className="login-step2-table">
-              <tbody>
-                <tr>
-                  <td>
-                    <span className="login-step2-label">Email</span>
-                  </td>
-                  <td>
-                    <input
-                      onChange={(e) => setEmail(e.target.value)}
-                      value={email}
-                      placeholder="Enter Email Address"
-                      className="login-step2-input"
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <span className="login-step2-label">Password</span>
-                  </td>
-                  <td>
-                    <input
-                      onChange={(e) => setPassword(e.target.value)}
-                      value={password}
-                      placeholder="Enter Password"
-                      type="password"
-                      className="login-step2-input"
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <div className="login-step2-buttons">
-              <Button
-                className="login-step2-button"
-                variant="success"
-                onClick={handleSubmit}
-              >
-                Submit
-              </Button>
-              <Button
-                className="login-step2-button"
-                variant="danger"
-                onClick={handleBackClick}
-              >
-                Back
-              </Button>
-            </div>
-          </>
-        ) : (
-          <>
-            {!codeSent ? (
-              <form onSubmit={handlePhoneSignup} className="login-step2-root">
-                <div className="login-step2-phone-root">
-                  <div className="login-step2-phone-label">Phone number</div>
-                  <input
-                    type="tel"
-                    placeholder="Country Code"
-                    value={countryCode}
-                    onChange={(e) => setCountryCode(e.target.value)}
-                    className="login-step2-country-code-input"
-                  />
-                  <input
-                    type="tel"
-                    placeholder="Phone Number"
-                    value={phoneNumber}
-                    onChange={(e) => setPhoneNumber(e.target.value)}
-                    className="login-step2-phone-input"
-                  />
-                </div>
-                <div id="recaptcha-container"></div>
-                <div className="login-step2-buttons">
-                  <Button
-                    className="login-step2-button"
-                    variant="success"
-                    type="submit"
-                  >
-                    Verify Phone
-                  </Button>
-                  <Button
-                    className="login-step2-button"
-                    variant="danger"
-                    onClick={handleBackClick}
-                  >
-                    Back
-                  </Button>
-                </div>
-              </form>
-            ) : (
-              <form onSubmit={handleOtpConfirmation}>
-                <div className="login-step2-confirm-otp-root">
-                  <input
-                    type="text"
-                    placeholder="OTP"
-                    value={confirmOtp}
-                    onChange={(e) => setConfirmOtp(e.target.value)}
-                    className="login-step2-otp-input"
-                  />
-                  <div className="login-step2-buttons">
-                    <Button
-                      className="login-step2-button"
-                      variant="success"
-                      type="submit"
-                    >
-                      Confirm OTP
-                    </Button>
-                    <Button
-                      className="login-step2-button"
-                      variant="danger"
-                      onClick={handleBackClick}
-                    >
-                      Back
-                    </Button>
-                  </div>
-                </div>
-              </form>
-            )}
-          </>
-        )}
-      </div>
-    );
+      setLoginModalOpen(false);
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
-
+  const handleSignupClick = () => {
+    setLoginModalOpen(false);
+    setSignupModalOpen(true);
+  };
   return (
     <div className="login-root">
       <Loader isLoading={isLoading} />
-      <h2>Login</h2>
-      {step === 1 && renderStep1()}
-      {step === 2 && renderStep2()}
+      <div className="login-left-root">
+        <div className="login-left-text">Login</div>
+      </div>
+      <div className="login-right-root">
+        <div className="login-right-root-container">
+          <div />
+          <div className="login-form">
+            <div className="login-input-wrapper">
+              <FontAwesomeIcon
+                icon={faUser}
+                style={{ color: "#ffffff" }}
+                className="login-icon"
+              />
+              <input
+                type="email"
+                placeholder="Email"
+                className="login-email-input"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div className="login-input-wrapper">
+              <FontAwesomeIcon
+                icon={faUnlockKeyhole}
+                style={{ color: "#ffffff" }}
+                className="login-icon"
+              />
+              <input
+                type="password"
+                placeholder="Password"
+                className="login-password-input"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <Button
+              onClick={handleLogin}
+              variant="success"
+              className="login-submit"
+            >
+              Login
+            </Button>
+          </div>
+          <div className="login-goto-signup">
+            <div>New User?</div>
+            <Button variant="link" onClick={handleSignupClick}>
+              Signup
+            </Button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

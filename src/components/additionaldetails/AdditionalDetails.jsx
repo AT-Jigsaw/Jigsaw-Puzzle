@@ -1,5 +1,5 @@
 import axios from "axios";
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc, getFirestore } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { auth, db } from "../../auth/firebase";
@@ -8,7 +8,7 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import "./additional-details.css";
 import Loader from "../loader/Loader";
 
-const AdditionalDetails = () => {
+const AdditionalDetails = ({timer, setAdditionalDetailsModalOpen}) => {
   const [user, setUser] = useState();
   const [fullName, setFullName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -17,6 +17,19 @@ const AdditionalDetails = () => {
   const [isEmailDisabled, setIsEmailDisabled] = useState(false);
   const [isPhoneNumberDisabled, setIsPhoneNumberDisabled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  const saveToDatabase = async (timer) => {
+    const db = getFirestore();
+    const docRef = doc(db, "users", auth.currentUser.uid);
+    try {
+      setIsLoading(true);
+      await setDoc(docRef, { timer }, { merge: true });
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
@@ -28,7 +41,6 @@ const AdditionalDetails = () => {
           const docSnap = await getDoc(docRef);
           if (docSnap.exists()) {
             const data = docSnap.data();
-            console.log(data);
             if (data.fullName) {
               setFullName(data.fullName);
               setIsFullNameDisabled(true);
@@ -55,6 +67,7 @@ const AdditionalDetails = () => {
     e.preventDefault();
     try {
       setIsLoading(true);
+      await saveToDatabase(timer);
       const { data } = await axios.get("https://api.ipify.org?format=json");
       await setDoc(
         doc(db, "users", user.uid),
@@ -67,6 +80,7 @@ const AdditionalDetails = () => {
         { merge: true }
       );
       signOut(auth);
+      setAdditionalDetailsModalOpen(false);
     } catch (error) {
       toast.error(error.message);
     } finally {

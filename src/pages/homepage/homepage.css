@@ -1,0 +1,48 @@
+.first-puzzle-root {
+  background-color: #5d6d87;
+}
+
+.at-logo {
+  width: 200px;
+  margin-left: 20px;
+}
+
+.header-text {
+  font-size: 52px;
+  font-weight: 500;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  text-transform: uppercase;
+  color: #6ec4d7;
+  max-width: 800px;
+}
+
+.second-puzzle-root {
+  background-color: #2b2c2e;
+}
+
+.third-puzzle-root {
+  background-color: #6e754c;
+}
+
+.puzzle-containers {
+  padding: 50px 0;
+}
+
+@media only screen and (max-width: 768px) {
+  .at-logo {
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .header-text {
+    font-size: 24px;
+    padding: 10px
+  }
+
+  .puzzle-containers {
+    padding: 40px 0
+  }
+}
