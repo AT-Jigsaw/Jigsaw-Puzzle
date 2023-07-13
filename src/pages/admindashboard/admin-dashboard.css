@@ -69,7 +69,7 @@
 }
 
 /* Mobile responsive styles */
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 1024px) {
   .admin-dashboard-root {
     overflow-y: auto;
   }

@@ -1,17 +1,16 @@
 import headbreaker from 'headbreaker';
-import { puzzleLinks } from './puzzleLinks';
 
 export const renderPuzzleOne = (showConfetti) => {
-  const isMobileScreen = window.innerWidth < 768;
+  const isMobileScreen = window.innerWidth < 1024;
   let picture = new Image();
-  picture.src = puzzleLinks[0];
+  picture.src = require('../assets/puzzle-1.jpg')
   picture.onload = () => {
     let canvasWidth = isMobileScreen ? window.innerWidth * 0.9 : 1200;
     let canvasHeight = isMobileScreen ? 300 : 775;
 
     const puzzle_canvas = new headbreaker.Canvas('puzzle_canvas_1', {
       width: canvasWidth, height: canvasHeight,
-      pieceSize: isMobileScreen ? 70 : 200, proximity: 20,
+      pieceSize: isMobileScreen ? { x: 90, y: 76.25 } : { x: 300, y: 255 }, proximity: 20,
       image: picture, fixed: true,
       outline: new headbreaker.outline.Rounded(),
       preventOffstageDrag: true
@@ -20,21 +19,11 @@ export const renderPuzzleOne = (showConfetti) => {
     puzzle_canvas.adjustImagesToPuzzleHeight();
     puzzle_canvas.autogenerate({
       verticalPiecesCount: 2,
+      horizontalPiecesCount: 3,
       insertsGenerator: headbreaker.generators.flipflop
     });
 
     puzzle_canvas.shuffle(0.8);
-
-    // puzzle_canvas.solve();
-
-    // let firstClick = true;
-
-    // document.getElementById("overlay-1").onclick = () => {
-    //   if (firstClick) {
-    //     puzzle_canvas.shuffle(0.8);
-    //     firstClick = false;
-    //   }
-    // };
 
     puzzle_canvas.attachSolvedValidator();
     puzzle_canvas.draw();
@@ -66,16 +55,16 @@ export const renderPuzzleOne = (showConfetti) => {
 };
 
 export const renderPuzzleTwo = (showConfetti) => {
-  const isMobileScreen = window.innerWidth < 768;
+  const isMobileScreen = window.innerWidth < 1024;
   let picture = new Image();
-  picture.src = puzzleLinks[1];
+  picture.src = require('../assets/puzzle-2.jpg')
   picture.onload = () => {
     let canvasWidth = isMobileScreen ? window.innerWidth * 0.9 : 1200;
     let canvasHeight = isMobileScreen ? 300 : 775;
 
-    const puzzle_canvas = new headbreaker.Canvas('puzzle_canvas_2', {
+    let puzzle_canvas = new headbreaker.Canvas('puzzle_canvas_2', {
       width: canvasWidth, height: canvasHeight,
-      pieceSize: isMobileScreen ? 70 : 200, proximity: 20,
+      pieceSize: isMobileScreen ? { x: 70, y: 98 } : { x: 242, y: 270 }, proximity: 20,
       image: picture, fixed: true,
       outline: new headbreaker.outline.Rounded(),
       preventOffstageDrag: true
@@ -84,21 +73,11 @@ export const renderPuzzleTwo = (showConfetti) => {
     puzzle_canvas.adjustImagesToPuzzleHeight();
     puzzle_canvas.autogenerate({
       verticalPiecesCount: 2,
+      horizontalPiecesCount: 4,
       insertsGenerator: headbreaker.generators.flipflop
     });
 
     puzzle_canvas.shuffle(0.8);
-
-    // puzzle_canvas.solve();
-
-    // let firstClick = true;
-
-    // document.getElementById("overlay-2").onclick = () => {
-    //   if (firstClick) {
-    //     puzzle_canvas.shuffle(0.8);
-    //     firstClick = false;
-    //   }
-    // };
 
     puzzle_canvas.attachSolvedValidator();
     puzzle_canvas.draw();
@@ -130,16 +109,16 @@ export const renderPuzzleTwo = (showConfetti) => {
 };
 
 export const renderPuzzleThree = (showConfetti) => {
-  const isMobileScreen = window.innerWidth < 768;
+  const isMobileScreen = window.innerWidth < 1024;
   let picture = new Image();
-  picture.src = puzzleLinks[2];
+  picture.src = require('../assets/puzzle-3.jpg')
   picture.onload = () => {
     let canvasWidth = isMobileScreen ? window.innerWidth * 0.9 : 1200;
     let canvasHeight = isMobileScreen ? 300 : 775;
 
     const puzzle_canvas = new headbreaker.Canvas('puzzle_canvas_3', {
       width: canvasWidth, height: canvasHeight,
-      pieceSize: isMobileScreen ? 50 : 150, proximity: 20,
+      pieceSize: isMobileScreen ? { x: 39, y: 43.33 } : { x: 135, y: 150 }, proximity: 20,
       image: picture, fixed: true,
       outline: new headbreaker.outline.Rounded(),
       preventOffstageDrag: true
@@ -148,21 +127,11 @@ export const renderPuzzleThree = (showConfetti) => {
     puzzle_canvas.adjustImagesToPuzzleHeight();
     puzzle_canvas.autogenerate({
       verticalPiecesCount: 4,
+      horizontalPiecesCount: 8,
       insertsGenerator: headbreaker.generators.flipflop
     });
 
     puzzle_canvas.shuffle(0.8);
-
-    // puzzle_canvas.solve();
-
-    // let firstClick = true;
-
-    // document.getElementById("overlay-3").onclick = () => {
-    //   if (firstClick) {
-    //     puzzle_canvas.shuffle(0.8);
-    //     firstClick = false;
-    //   }
-    // };
 
     puzzle_canvas.attachSolvedValidator();
     puzzle_canvas.draw();

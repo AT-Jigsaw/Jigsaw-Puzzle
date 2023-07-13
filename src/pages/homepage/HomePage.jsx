@@ -23,7 +23,7 @@ const HomePage = () => {
   const intervalRef = useRef();
 
   useEffect(() => {
-    if (!user) setLoginModalOpen(true);
+    if (!user) setSignupModalOpen(true);
   }, [user]);
 
   useEffect(() => {
@@ -53,8 +53,9 @@ const HomePage = () => {
   const renderFirstPuzzle = () => {
     return (
       <div className="first-puzzle-root">
+        <div className="fixed-timer">Time Elapsed: {timer} s</div>
         <img
-          src={require("../../assets/at_logo.png")}
+          src={require("../../assets/american-tourister-logo.jpg")}
           alt="at-logo"
           className="at-logo"
         />

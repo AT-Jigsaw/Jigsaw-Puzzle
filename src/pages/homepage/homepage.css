@@ -30,7 +30,17 @@
   padding: 50px 0;
 }
 
-@media only screen and (max-width: 768px) {
+.fixed-timer {
+  font-family: "OmnesReg", "serif";
+  font-size: 24px;
+  z-index: 2;
+  position: fixed;
+  top: 35px;
+  right: 30px;
+  color: white;
+}
+
+@media only screen and (max-width: 1024px) {
   .at-logo {
     display: flex;
     margin-left: auto;
@@ -44,5 +54,9 @@
 
   .puzzle-containers {
     padding: 40px 0
+  }
+
+  .fixed-timer {
+    right: 15px;
   }
 }

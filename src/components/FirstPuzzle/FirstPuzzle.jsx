@@ -1,11 +1,13 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { confetti } from "../../utils/confetti";
 import { renderPuzzleOne } from "../../utils/puzzle";
 import "./first-puzzle.css";
 
 const FirstPuzzle = (props) => {
   const { setCompleted } = props;
-  const isMobileScreen = window.innerWidth < 768;
+  const isMobileScreen = window.innerWidth < 1024;
+
+  const [overlayVisible, setOverlayVisible] = useState(true);
 
   const showInfo = () => {
     confetti.start();
@@ -26,9 +28,23 @@ const FirstPuzzle = (props) => {
     <div className="desktop-display">
       <div className="puzzle-container">
         <div className="special-box">
-          <div id="overlay-1">
-            <div id="puzzle_canvas_1"></div>
-          </div>
+          {overlayVisible && (
+            <img
+              src={require("../../assets/puzzle-1.jpg")}
+              alt="overlay"
+              onClick={() => setOverlayVisible(false)}
+              style={{
+                position: "absolute",
+                zIndex: 1,
+                width: "100%",
+                height: "100%",
+                cursor: "pointer",
+                top: 0,
+                left: 0,
+              }}
+            />
+          )}
+          <div id="puzzle_canvas_1"></div>
         </div>
         {!isMobileScreen && (
           <div style={{ height: "50px", width: "1px" }}></div>

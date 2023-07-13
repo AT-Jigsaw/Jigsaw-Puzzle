@@ -14,9 +14,35 @@ const Login = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const isEmailValid = (email) => {
+    const re =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  };
+
+  const isPasswordValid = (password) => {
+    const re =
+      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
+    return re.test(String(password));
+  };
+
   const handleLogin = async () => {
     try {
       setIsLoading(true);
+
+      if (!isEmailValid(email)) {
+        setIsLoading(false);
+        return toast.error("Please enter a valid email.");
+      }
+
+      if (!isPasswordValid(password)) {
+        setIsLoading(false);
+        return toast.error(
+          "Password should have 8-15 characters with at least one digit, one uppercase letter, one lowercase letter, and one special character."
+        );
+      }
+
       const userCredential = await signInWithEmailAndPassword(
         auth,
         email,

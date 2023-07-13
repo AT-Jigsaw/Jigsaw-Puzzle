@@ -6,6 +6,7 @@
 }
 
 .special-box {
+  position: relative;
   background-image: url("../../assets/puzzle-bg.jpg");
   background-position: center !important;
   background-repeat: no-repeat !important;
@@ -15,7 +16,7 @@
   border: 2pt solid rgb(19, 17, 17);
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 1024px) {
   .special-box {
     margin-right: 0;
   }
