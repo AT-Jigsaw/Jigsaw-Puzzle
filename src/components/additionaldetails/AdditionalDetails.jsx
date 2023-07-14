@@ -1,5 +1,12 @@
 import axios from "axios";
-import { doc, setDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from "firebase/firestore";
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { db } from "../../auth/firebase";
@@ -28,6 +35,15 @@ const AdditionalDetails = ({ timer, setAdditionalDetailsModalOpen }) => {
     try {
       setIsLoading(true);
       const { data } = await axios.get("https://api.ipify.org?format=json");
+      const q = query(
+        collection(db, "users"),
+        where("ipAddress", "==", data.ip)
+      );
+      const userSnap = await getDocs(q);
+
+      if (userSnap.size) {
+        return toast.error("You have already completed the puzzle.");
+      }
       const uid = uuidv4();
       if (!isEmailValid(email)) {
         setIsLoading(false);
