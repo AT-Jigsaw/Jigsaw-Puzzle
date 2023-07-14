@@ -3,34 +3,19 @@ import Header from "../../components/header/Header";
 import FirstPuzzle from "../../components/FirstPuzzle/FirstPuzzle";
 import SecondPuzzle from "../../components/SecondPuzzle/SecondPuzzle";
 import ThirdPuzzle from "../../components/ThirdPuzzle/ThirdPuzzle";
-import Login from "../../components/Login/Login";
-import Signup from "../../components/signup/Signup";
 import AdditionalDetails from "../../components/additionaldetails/AdditionalDetails";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../../auth/firebase";
 import "./homepage.css";
 import Footer from "../../components/Footer/Footer";
 import { Modal } from "react-bootstrap";
+import StartNow from "../../components/StartNow/StartNow";
 
 const HomePage = () => {
-  const [user, setUser] = useState();
   const [completed, setCompleted] = useState(0);
   const [additionalDetailsModalOpen, setAdditionalDetailsModalOpen] =
     useState(false);
-  const [loginModalOpen, setLoginModalOpen] = useState(false);
-  const [signupModalOpen, setSignupModalOpen] = useState(false);
+  const [showStartModal, setShowStartModal] = useState(true);
   const [timer, setTimer] = useState(0);
   const intervalRef = useRef();
-
-  useEffect(() => {
-    if (!user) setSignupModalOpen(true);
-  }, [user]);
-
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      setUser(user);
-    });
-  }, []);
 
   useEffect(() => {
     if (completed === 3) {
@@ -40,7 +25,7 @@ const HomePage = () => {
   }, [completed]);
 
   useEffect(() => {
-    if (!loginModalOpen && !signupModalOpen && user && !intervalRef.current) {
+    if (!showStartModal && !intervalRef.current) {
       intervalRef.current = setInterval(() => {
         setTimer((timer) => timer + 1);
       }, 1000);
@@ -48,7 +33,7 @@ const HomePage = () => {
     return () => {
       clearInterval(intervalRef.current);
     };
-  }, [loginModalOpen, signupModalOpen, user]);
+  }, [showStartModal]);
 
   const renderFirstPuzzle = () => {
     return (
@@ -96,27 +81,8 @@ const HomePage = () => {
       {renderSecondPuzzle()}
       {renderThirdPuzzle()}
       <Footer />
-      <Modal
-        show={loginModalOpen}
-        onHide={() => setLoginModalOpen(false)}
-        centered
-        backdrop="static"
-      >
-        <Login
-          setLoginModalOpen={setLoginModalOpen}
-          setSignupModalOpen={setSignupModalOpen}
-        />
-      </Modal>
-      <Modal
-        show={signupModalOpen}
-        onHide={() => setSignupModalOpen(false)}
-        centered
-        backdrop="static"
-      >
-        <Signup
-          setSignupModalOpen={setSignupModalOpen}
-          setLoginModalOpen={setLoginModalOpen}
-        />
+      <Modal show={showStartModal} centered backdrop="static">
+        <StartNow setShowStartModal={setShowStartModal} />
       </Modal>
       <Modal show={additionalDetailsModalOpen} centered backdrop="static">
         <AdditionalDetails

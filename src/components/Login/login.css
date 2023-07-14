@@ -1,26 +1,13 @@
 .login-root {
   font-family: "HelveticaRounded", sans-serif;
+  background-color: #e1e1db;
+  border-radius: 24px;
   display: flex;
-  height: 600px;
-  width: 800px;
-}
-
-.login-left-root {
-  background-image: url("../../assets/puzzle-bg.jpg");
-  border-top-left-radius: 40px;
-  border-bottom-left-radius: 40px;
-  flex: 1;
-}
-
-.login-left-text {
-  font-size: 48px;
-  color: white;
-  font-weight: 600;
-  margin: 10% 0 0 20%;
-}
-
-.login-right-root {
-  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  row-gap: 10px;
+  align-items: center;
+  padding: 40px 20px;
 }
 
 .login-right-root-container {
@@ -33,7 +20,7 @@
 }
 
 .login-form {
-  font-family: 'OmnesReg', sans-serif;
+  font-family: "OmnesReg", sans-serif;
   width: 100%;
   height: 100%;
   display: flex;
@@ -46,7 +33,7 @@
 
 .login-input-wrapper {
   position: relative;
-  width: 80%;
+  width: 100%;
 }
 
 .login-icon {
@@ -64,7 +51,6 @@
   border-width: 0;
   font-weight: 300;
   padding: 4px 16px 4px 50px;
-
 }
 
 .login-email-input::placeholder {
@@ -102,9 +88,5 @@
   .login-root {
     width: 100%;
     height: 300px;
-  }
-
-  .login-left-root {
-   display: none;
   }
 }

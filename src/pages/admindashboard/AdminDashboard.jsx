@@ -1,20 +1,33 @@
 import React, { useEffect, useState } from "react";
 import "./admin-dashboard.css";
-import { Button, Navbar, Nav } from "react-bootstrap";
+import { Button, Navbar, Nav, Modal } from "react-bootstrap";
 import Points from "../../components/admindashboard/Points";
-import { signOut } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth, db } from "../../auth/firebase";
 import { useNavigate } from "react-router-dom";
 import { collection, getDocs } from "firebase/firestore";
 import { toast } from "react-toastify";
 import Loader from "../../components/loader/Loader";
+import Login from '../../components/Login/Login'
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const [selectedComponent, setSelectedComponent] = useState("points");
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const adminData = data.find((user) => user.email === "admin@gmail.com");
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user && user.email === 'admin@gmail.com') {
+        setIsAdmin(true);
+      } else {
+        setIsAdmin(false);
+      }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -77,9 +90,12 @@ const AdminDashboard = () => {
           </Button>
         </Nav>
         <div className="component-container">
-          {selectedComponent === "points" && <Points data={data} />}
+          {selectedComponent === "points" && isAdmin && <Points data={data} />}
         </div>
       </div>
+      <Modal show={!isAdmin} centered backdrop="static">
+        <Login />
+      </Modal>
     </div>
   );
 };

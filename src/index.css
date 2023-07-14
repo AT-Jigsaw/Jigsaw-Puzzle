@@ -4,14 +4,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.modal-dialog {
-  max-width: 800px !important;
-}
-
-.modal-content {
-  border-radius: 40px !important;
-}
-
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -19,9 +11,6 @@ input:-webkit-autofill:active {
   transition: background-color 5000s ease-in-out 0s;
 }
 
-
-@media only screen and (max-width: 1024px) {
-  .modal-dialog {
-    max-width: 400px !important;
-  }
+.modal-content {
+  background-color: transparent !important;
 }

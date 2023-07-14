@@ -29,6 +29,11 @@
   padding: 15px;
 }
 
+.points-root td {
+  font-family: "OmnesReg", sans-serif;
+  font-size: 18px;
+}
+
 .points-root table th {
   background-color: #f2f2f2;
 }

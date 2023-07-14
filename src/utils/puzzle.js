@@ -18,8 +18,8 @@ export const renderPuzzleOne = (showConfetti) => {
 
     puzzle_canvas.adjustImagesToPuzzleHeight();
     puzzle_canvas.autogenerate({
-      verticalPiecesCount: 2,
-      horizontalPiecesCount: 3,
+      verticalPiecesCount: 1,
+      horizontalPiecesCount: 2,
       insertsGenerator: headbreaker.generators.flipflop
     });
 
@@ -72,8 +72,8 @@ export const renderPuzzleTwo = (showConfetti) => {
 
     puzzle_canvas.adjustImagesToPuzzleHeight();
     puzzle_canvas.autogenerate({
-      verticalPiecesCount: 2,
-      horizontalPiecesCount: 4,
+      verticalPiecesCount: 1,
+      horizontalPiecesCount: 2,
       insertsGenerator: headbreaker.generators.flipflop
     });
 
@@ -126,8 +126,8 @@ export const renderPuzzleThree = (showConfetti) => {
 
     puzzle_canvas.adjustImagesToPuzzleHeight();
     puzzle_canvas.autogenerate({
-      verticalPiecesCount: 4,
-      horizontalPiecesCount: 8,
+      verticalPiecesCount: 1,
+      horizontalPiecesCount: 2,
       insertsGenerator: headbreaker.generators.flipflop
     });
 

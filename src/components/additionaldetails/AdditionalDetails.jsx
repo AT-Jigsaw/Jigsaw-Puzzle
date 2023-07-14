@@ -1,86 +1,48 @@
 import axios from "axios";
-import { doc, setDoc, getDoc, getFirestore } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
+import { doc, setDoc } from "firebase/firestore";
+import React, { useState } from "react";
 import { Button } from "react-bootstrap";
-import { auth, db } from "../../auth/firebase";
+import { db } from "../../auth/firebase";
 import { toast } from "react-toastify";
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import { v4 as uuidv4 } from "uuid";
+import { useNavigate } from "react-router-dom";
 import "./additional-details.css";
 import Loader from "../loader/Loader";
 
-const AdditionalDetails = ({timer, setAdditionalDetailsModalOpen}) => {
-  const [user, setUser] = useState();
+const AdditionalDetails = ({ timer, setAdditionalDetailsModalOpen }) => {
+  const navigate = useNavigate();
+
   const [fullName, setFullName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
-  const [isFullNameDisabled, setIsFullNameDisabled] = useState(false);
-  const [isEmailDisabled, setIsEmailDisabled] = useState(false);
-  const [isPhoneNumberDisabled, setIsPhoneNumberDisabled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const saveToDatabase = async (timer) => {
-    const db = getFirestore();
-    const docRef = doc(db, "users", auth.currentUser.uid);
-    try {
-      setIsLoading(true);
-      await setDoc(docRef, { timer }, { merge: true });
-    } catch (error) {
-      toast.error(error.message);
-    } finally {
-      setIsLoading(false);
-    }
+  const isEmailValid = (email) => {
+    const re =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
   };
-
-  useEffect(() => {
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        setUser(user);
-        const docRef = doc(db, "users", user.uid);
-        try {
-          setIsLoading(true);
-          const docSnap = await getDoc(docRef);
-          if (docSnap.exists()) {
-            const data = docSnap.data();
-            if (data.fullName) {
-              setFullName(data.fullName);
-              setIsFullNameDisabled(true);
-            }
-            if (data.email) {
-              setEmail(data.email);
-              setIsEmailDisabled(true);
-            }
-            if (data.phoneNumber) {
-              setPhoneNumber(data.phoneNumber);
-              setIsPhoneNumberDisabled(true);
-            }
-          }
-        } catch (error) {
-          toast.error(error.message);
-        } finally {
-          setIsLoading(false);
-        }
-      }
-    });
-  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       setIsLoading(true);
-      await saveToDatabase(timer);
       const { data } = await axios.get("https://api.ipify.org?format=json");
-      await setDoc(
-        doc(db, "users", user.uid),
-        {
-          fullName: fullName,
-          phoneNumber: phoneNumber,
-          email: email,
-          ipAddress: data.ip,
-        },
-        { merge: true }
-      );
-      signOut(auth);
+      const uid = uuidv4();
+      if (!isEmailValid(email)) {
+        setIsLoading(false);
+        return toast.error("Please enter a valid email.");
+      }
+      await setDoc(doc(db, "users", uid), {
+        fullName: fullName,
+        phoneNumber: phoneNumber,
+        email: email,
+        ipAddress: data.ip,
+        timer: timer,
+      });
+      toast.success("Thanks for playing! Your details have been recorded.");
       setAdditionalDetailsModalOpen(false);
+      navigate(0);
     } catch (error) {
       toast.error(error.message);
     } finally {
@@ -103,7 +65,6 @@ const AdditionalDetails = ({timer, setAdditionalDetailsModalOpen}) => {
                 value={fullName}
                 placeholder="Enter Full Name"
                 className="additional-details-input"
-                disabled={isFullNameDisabled}
               />
             </td>
           </tr>
@@ -117,7 +78,6 @@ const AdditionalDetails = ({timer, setAdditionalDetailsModalOpen}) => {
                 value={email}
                 placeholder="Enter Email Address"
                 className="additional-details-input"
-                disabled={isEmailDisabled}
               />
             </td>
           </tr>
@@ -131,7 +91,6 @@ const AdditionalDetails = ({timer, setAdditionalDetailsModalOpen}) => {
                 value={phoneNumber}
                 placeholder="Enter Phone Number"
                 className="additional-details-input"
-                disabled={isPhoneNumberDisabled}
               />
             </td>
           </tr>
