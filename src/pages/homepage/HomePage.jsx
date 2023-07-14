@@ -13,7 +13,6 @@ const HomePage = () => {
   const [additionalDetailsModalOpen, setAdditionalDetailsModalOpen] =
     useState(false);
   const [timer, setTimer] = useState(0);
-  const [isOverlayClicked, setIsOverlayClicked] = useState(false);
   const intervalRef = useRef();
 
   useEffect(() => {
@@ -24,15 +23,14 @@ const HomePage = () => {
   }, [completed]);
 
   useEffect(() => {
-    if (isOverlayClicked && !intervalRef.current) {
-      intervalRef.current = setInterval(() => {
-        setTimer((timer) => timer + 1);
-      }, 1000);
-    }
+    intervalRef.current = setInterval(() => {
+      setTimer((timer) => timer + 1);
+    }, 1000);
+
     return () => {
       clearInterval(intervalRef.current);
     };
-  }, [isOverlayClicked]);
+  }, []);
 
   const renderFirstPuzzle = () => {
     return (
@@ -47,10 +45,7 @@ const HomePage = () => {
           solve these 3 puzzles as fast as you can
         </div>
         <div className="puzzle-containers">
-          <FirstPuzzle
-            setCompleted={setCompleted}
-            setIsOverlayClicked={setIsOverlayClicked}
-          />
+          <FirstPuzzle setCompleted={setCompleted} />
         </div>
       </div>
     );
@@ -60,10 +55,7 @@ const HomePage = () => {
     return (
       <div className="second-puzzle-root">
         <div className="puzzle-containers">
-          <SecondPuzzle
-            setCompleted={setCompleted}
-            setIsOverlayClicked={setIsOverlayClicked}
-          />
+          <SecondPuzzle setCompleted={setCompleted} />
         </div>
       </div>
     );
@@ -73,10 +65,7 @@ const HomePage = () => {
     return (
       <div className="third-puzzle-root">
         <div className="puzzle-containers">
-          <ThirdPuzzle
-            setCompleted={setCompleted}
-            setIsOverlayClicked={setIsOverlayClicked}
-          />
+          <ThirdPuzzle setCompleted={setCompleted} />
         </div>
       </div>
     );
