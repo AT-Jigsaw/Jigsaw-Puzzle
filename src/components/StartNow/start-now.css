@@ -11,6 +11,7 @@
   }
   
   .start-now-text {
+    text-align: center;
     color: #005b63;
     font-family: "HelveticaRounded", sans-serif;
     font-size: 40px;
@@ -21,4 +22,14 @@
     font-family: "OmnesReg", sans-serif;
     font-size: 24px;
     padding: 4px 24px;
+  }
+
+  @media only screen and (max-width: 1024px) {
+    .start-now-text {
+        font-size: 24px;
+    }
+
+    .start-now-button {
+        font-size: 18px;
+    }
   }
