@@ -1,4 +1,7 @@
 .header-root {
   background-color: #ee6751;
   min-height: 30px;
+  position: sticky;
+  top: 0;
+  z-index: 3;
 }

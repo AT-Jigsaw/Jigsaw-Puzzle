@@ -4,10 +4,15 @@ import { renderPuzzleTwo } from "../../utils/puzzle";
 import "./second-puzzle.css";
 
 const SecondPuzzle = (props) => {
-  const { setCompleted } = props;
+  const { setCompleted, setIsOverlayClicked } = props;
   const isMobileScreen = window.innerWidth < 1024;
 
   const [overlayVisible, setOverlayVisible] = useState(true);
+
+  const handleOverlayClick = () => {
+    setIsOverlayClicked(true);
+    setOverlayVisible(false)
+  }
 
   const showInfo = () => {
     confetti.start();
@@ -32,7 +37,7 @@ const SecondPuzzle = (props) => {
             <img
               src={require("../../assets/puzzle-2.jpg")}
               alt="overlay"
-              onClick={() => setOverlayVisible(false)}
+              onClick={handleOverlayClick}
               style={{
                 position: "absolute",
                 zIndex: 1,

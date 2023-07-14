@@ -7,14 +7,13 @@ import AdditionalDetails from "../../components/additionaldetails/AdditionalDeta
 import "./homepage.css";
 import Footer from "../../components/Footer/Footer";
 import { Modal } from "react-bootstrap";
-import StartNow from "../../components/StartNow/StartNow";
 
 const HomePage = () => {
   const [completed, setCompleted] = useState(0);
   const [additionalDetailsModalOpen, setAdditionalDetailsModalOpen] =
     useState(false);
-  const [showStartModal, setShowStartModal] = useState(true);
   const [timer, setTimer] = useState(0);
+  const [isOverlayClicked, setIsOverlayClicked] = useState(false);
   const intervalRef = useRef();
 
   useEffect(() => {
@@ -25,7 +24,7 @@ const HomePage = () => {
   }, [completed]);
 
   useEffect(() => {
-    if (!showStartModal && !intervalRef.current) {
+    if (isOverlayClicked && !intervalRef.current) {
       intervalRef.current = setInterval(() => {
         setTimer((timer) => timer + 1);
       }, 1000);
@@ -33,14 +32,14 @@ const HomePage = () => {
     return () => {
       clearInterval(intervalRef.current);
     };
-  }, [showStartModal]);
+  }, [isOverlayClicked]);
 
   const renderFirstPuzzle = () => {
     return (
       <div className="first-puzzle-root">
         <div className="fixed-timer">Time Elapsed: {timer} s</div>
         <img
-          src={require("../../assets/american-tourister-logo.jpg")}
+          src={require("../../assets/american-tourister-logo.png")}
           alt="at-logo"
           className="at-logo"
         />
@@ -48,7 +47,10 @@ const HomePage = () => {
           solve these 3 puzzles as fast as you can
         </div>
         <div className="puzzle-containers">
-          <FirstPuzzle setCompleted={setCompleted} />
+          <FirstPuzzle
+            setCompleted={setCompleted}
+            setIsOverlayClicked={setIsOverlayClicked}
+          />
         </div>
       </div>
     );
@@ -58,7 +60,10 @@ const HomePage = () => {
     return (
       <div className="second-puzzle-root">
         <div className="puzzle-containers">
-          <SecondPuzzle setCompleted={setCompleted} />
+          <SecondPuzzle
+            setCompleted={setCompleted}
+            setIsOverlayClicked={setIsOverlayClicked}
+          />
         </div>
       </div>
     );
@@ -68,7 +73,10 @@ const HomePage = () => {
     return (
       <div className="third-puzzle-root">
         <div className="puzzle-containers">
-          <ThirdPuzzle setCompleted={setCompleted} />
+          <ThirdPuzzle
+            setCompleted={setCompleted}
+            setIsOverlayClicked={setIsOverlayClicked}
+          />
         </div>
       </div>
     );
@@ -81,9 +89,6 @@ const HomePage = () => {
       {renderSecondPuzzle()}
       {renderThirdPuzzle()}
       <Footer />
-      <Modal show={showStartModal} centered backdrop="static">
-        <StartNow setShowStartModal={setShowStartModal} />
-      </Modal>
       <Modal show={additionalDetailsModalOpen} centered backdrop="static">
         <AdditionalDetails
           timer={timer}
