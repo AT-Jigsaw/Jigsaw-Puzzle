@@ -61,3 +61,54 @@
     right: 15px;
   }
 }
+
+.header-buttons {
+  border: 2px solid #333;
+  border-radius: 20px;
+  background-color: #6288b5;
+  width: 300px;
+  margin: 50px auto;
+  border: none;
+}
+.step1-btn {
+  color: #3c5a7e;
+  border-radius: 22px;
+  border: none;
+  height: 100%;
+  width: 33%;
+  background-color: #6288b5;
+  font-size: 20px;
+  font: OmnesReg;
+}
+.step1-btn:hover {
+  background-color: #9ac221;
+  color: white;
+}
+.step2-btn {
+  color: #3c5a7e;
+  border-radius: 22px;
+  border: none;
+  height: 100%;
+  width: 33%;
+  background-color: #6288b5;
+  font: OmnesReg;
+  font-size: 20px;
+}
+.step2-btn:hover {
+  background-color: #9ac221;
+  color: white;
+}
+.step3-btn {
+  color: #3c5a7e;
+  border-radius: 22px;
+  border: none;
+  height: 100%;
+  width: 34%;
+  font: OmnesReg;
+  background-color: #6288b5;
+  font-size: 20px;
+}
+.step3-btn:hover {
+  background-color: #9ac221;
+  color: white;
+}

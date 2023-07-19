@@ -14,6 +14,7 @@ const HomePage = () => {
     useState(false);
   const [timer, setTimer] = useState(0);
   const intervalRef = useRef();
+  const [currentStep, setCurrentStep] = useState();
 
   useEffect(() => {
     if (completed === 3) {
@@ -43,6 +44,17 @@ const HomePage = () => {
         />
         <div className="header-text">
           solve these 3 puzzles as fast as you can
+        </div>
+        <div className="header-buttons">
+          <button className="step1-btn" onClick={() => setCurrentStep(1)}>
+            STEP 1
+          </button>
+          <button className="step2-btn" onClick={() => setCurrentStep(1)}>
+            STEP 2
+          </button>
+          <button className="step3-btn" onClick={() => setCurrentStep(1)}>
+            STEP 3
+          </button>
         </div>
         <div className="puzzle-containers">
           <FirstPuzzle setCompleted={setCompleted} />
