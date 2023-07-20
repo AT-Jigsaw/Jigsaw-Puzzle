@@ -3,14 +3,14 @@ import headbreaker from 'headbreaker';
 export const renderPuzzleOne = (showConfetti) => {
   const isMobileScreen = window.innerWidth < 1024;
   let picture = new Image();
-  picture.src = require('../assets/puzzle-1.jpg')
+  picture.src = isMobileScreen ? require('../assets/puzzle-1-small.png') : require('../assets/puzzle-1.png')
   picture.onload = () => {
-    let canvasWidth = isMobileScreen ? window.innerWidth * 0.9 : 1200;
-    let canvasHeight = isMobileScreen ? 300 : 775;
+    let canvasWidth = isMobileScreen ? 300 : 1240;
+    let canvasHeight = isMobileScreen ? 450 : 720;
 
     const puzzle_canvas = new headbreaker.Canvas('puzzle_canvas_1', {
       width: canvasWidth, height: canvasHeight,
-      pieceSize: isMobileScreen ? { x: 80, y: 68 } : { x: 300, y: 255 }, proximity: 20,
+      pieceSize: isMobileScreen ? { x: 95, y: 220 } : { x: 400, y: 340 }, proximity: 20,
       image: picture, fixed: true,
       outline: new headbreaker.outline.Rounded(),
       preventOffstageDrag: true
@@ -24,6 +24,7 @@ export const renderPuzzleOne = (showConfetti) => {
     });
 
     puzzle_canvas.shuffle(0.8);
+    // puzzle_canvas.solve();
 
     puzzle_canvas.attachSolvedValidator();
     puzzle_canvas.draw();
@@ -47,7 +48,7 @@ export const renderPuzzleOne = (showConfetti) => {
     puzzle_canvas.onValid((validator) => complete())
 
     let complete = async () => {
-      puzzle_canvas.solve();
+      // puzzle_canvas.solve();
       puzzle_canvas.redraw();
       showConfetti();
     }
@@ -57,14 +58,14 @@ export const renderPuzzleOne = (showConfetti) => {
 export const renderPuzzleTwo = (showConfetti) => {
   const isMobileScreen = window.innerWidth < 1024;
   let picture = new Image();
-  picture.src = require('../assets/puzzle-2.jpg')
+  picture.src = isMobileScreen ? require('../assets/puzzle-2-small.png') : require('../assets/puzzle-2.png')
   picture.onload = () => {
-    let canvasWidth = isMobileScreen ? window.innerWidth * 0.9 : 1200;
-    let canvasHeight = isMobileScreen ? 300 : 775;
+    let canvasWidth = isMobileScreen ? 300 : 1240;
+    let canvasHeight = isMobileScreen ? 450 : 720;
 
     let puzzle_canvas = new headbreaker.Canvas('puzzle_canvas_2', {
       width: canvasWidth, height: canvasHeight,
-      pieceSize: isMobileScreen ? { x: 80, y: 44.5 } : { x: 300, y: 166.67 }, proximity: 20,
+      pieceSize: isMobileScreen ? { x: 95, y: 145 } : { x: 400, y: 223.22 }, proximity: 20,
       image: picture, fixed: true,
       outline: new headbreaker.outline.Rounded(),
       preventOffstageDrag: true
@@ -101,7 +102,7 @@ export const renderPuzzleTwo = (showConfetti) => {
     puzzle_canvas.onValid((validator) => complete())
 
     let complete = async () => {
-      puzzle_canvas.solve();
+      // puzzle_canvas.solve();
       puzzle_canvas.redraw();
       showConfetti();
     }
@@ -111,14 +112,14 @@ export const renderPuzzleTwo = (showConfetti) => {
 export const renderPuzzleThree = (showConfetti) => {
   const isMobileScreen = window.innerWidth < 1024;
   let picture = new Image();
-  picture.src = require('../assets/puzzle-3.jpg')
+  picture.src = isMobileScreen ? require('../assets/puzzle-3-small.png') : require('../assets/puzzle-3.png')
   picture.onload = () => {
-    let canvasWidth = isMobileScreen ? window.innerWidth * 0.9 : 1200;
-    let canvasHeight = isMobileScreen ? 300 : 775;
+    let canvasWidth = isMobileScreen ? 300 : 1240;
+    let canvasHeight = isMobileScreen ? 450 : 720;
 
     const puzzle_canvas = new headbreaker.Canvas('puzzle_canvas_3', {
       width: canvasWidth, height: canvasHeight,
-      pieceSize: isMobileScreen ? { x: 66, y: 48 } : { x: 240, y: 180 }, proximity: 20,
+      pieceSize: isMobileScreen ? { x: 72, y: 135 } : { x: 300, y: 225 }, proximity: 20,
       image: picture, fixed: true,
       outline: new headbreaker.outline.Rounded(),
       preventOffstageDrag: true
@@ -155,7 +156,7 @@ export const renderPuzzleThree = (showConfetti) => {
     puzzle_canvas.onValid((validator) => complete())
 
     let complete = async () => {
-      puzzle_canvas.solve();
+      // puzzle_canvas.solve();
       puzzle_canvas.redraw();
       showConfetti();
     }

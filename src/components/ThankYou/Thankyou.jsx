@@ -1,14 +1,16 @@
 import React from "react";
 import "./thankyou.css";
 
-const Thankyou = () => {
+const ThankYou = () => {
+  const isMobileScreen = window.innerWidth < 1024;
   return (
-    <div className="container">
+    <div className="thank-you-container">
       <div className="images-container">
         <img
-          src={require("../../assets/puzzle-1.jpg")}
-          height="500px"
-          width="400px"
+          src={isMobileScreen ? require("../../assets/thank-you-img.png") : require("../../assets/thank-you-img-small.png")}
+          alt="all-puzzles"
+          height={isMobileScreen ? 180 : 640}
+          width={isMobileScreen ? 300 : 400}
         />
       </div>
       <div className="thankyou-container">
@@ -18,13 +20,7 @@ const Thankyou = () => {
           <div className="top-line3"></div>
         </div>
         <div className="thankyou-txt">
-          <p>
-            THANK YOU
-            <br /> FOR PARTICIPATING! <br />
-            MORE DETAILS
-            <br /> ARE COMING <br />
-            YOUR <br /> WAY SOON..
-          </p>
+          THANK YOU FOR PARTICIPATING! MORE DETAILS ARE COMING YOUR WAY SOON..
         </div>
         <div className="bottom-line">
           <div className="bottom-line1"></div>
@@ -36,4 +32,4 @@ const Thankyou = () => {
   );
 };
 
-export default Thankyou;
+export default ThankYou;

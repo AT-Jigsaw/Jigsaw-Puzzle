@@ -12,13 +12,14 @@ import { Button } from "react-bootstrap";
 import { db } from "../../auth/firebase";
 import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
-import { useNavigate } from "react-router-dom";
 import "./additional-details.css";
 import Loader from "../loader/Loader";
 
-const AdditionalDetails = ({ timer, setAdditionalDetailsModalOpen }) => {
-  const navigate = useNavigate();
-
+const AdditionalDetails = ({
+  timer,
+  setAdditionalDetailsModalOpen,
+  setShowThankYouModal,
+}) => {
   const [fullName, setFullName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
@@ -56,9 +57,8 @@ const AdditionalDetails = ({ timer, setAdditionalDetailsModalOpen }) => {
         ipAddress: data.ip,
         timer: timer,
       });
-      toast.success("Thanks for playing! Your details have been recorded.");
       setAdditionalDetailsModalOpen(false);
-      navigate(0);
+      setShowThankYouModal(true);
     } catch (error) {
       toast.error(error.message);
     } finally {
