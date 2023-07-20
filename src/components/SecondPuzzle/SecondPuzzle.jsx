@@ -31,13 +31,13 @@ const SecondPuzzle = (props) => {
         {!isMobileScreen && (
           <div style={{ height: "50px", width: "1px" }}></div>
         )}
-        <button class="pushable" onClick={loadContent}>
+        {/* <button class="pushable" onClick={loadContent}>
           <span class="shadow"></span>
           <span class="edge"></span>
           <span class="front">
             <span class="yassified-button">Reset</span>
           </span>
-        </button>
+        </button> */}
       </div>
     </div>
   );
