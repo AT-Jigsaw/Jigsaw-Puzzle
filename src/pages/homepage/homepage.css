@@ -64,7 +64,11 @@
   width: 33.33%;
   font-size: 14px;
   text-transform: uppercase;
-  margin: auto;
+  height: 100%
+}
+
+.active-btn span {
+  font-size: 15px;
 }
 
 .disabled-btn {
@@ -75,7 +79,11 @@
   background-color: #7b8ca6;
   font-size: 14px;
   text-transform: uppercase;
-  margin: auto;
+  height: 100%
+}
+
+.disabled-btn span {
+  font-size: 15px;
 }
 
 @media only screen and (max-width: 1024px) {
@@ -96,5 +104,13 @@
 
   .header-buttons {
     width: 75%;
+  }
+
+  .disabled-btn span, .active-btn span {
+    font-size: 13px;
+  }
+
+  .disabled-btn, .active-btn {
+    font-size: 12px;
   }
 }
