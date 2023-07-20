@@ -7,6 +7,7 @@ import AdditionalDetails from "../../components/additionaldetails/AdditionalDeta
 import "./homepage.css";
 import Footer from "../../components/Footer/Footer";
 import { Modal } from "react-bootstrap";
+import Thankyou from "../../components/thankyoupage/Thankyou";
 
 const HomePage = () => {
   const [completed, setCompleted] = useState(0);
@@ -96,6 +97,7 @@ const HomePage = () => {
           setAdditionalDetailsModalOpen={setAdditionalDetailsModalOpen}
         />
       </Modal>
+      <Thankyou />
     </div>
   );
 };
