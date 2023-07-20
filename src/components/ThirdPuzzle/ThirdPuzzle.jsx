@@ -26,11 +26,18 @@ const ThirdPuzzle = (props) => {
     <div className="desktop-display">
       <div className="puzzle-container">
         <div className="special-box">
-            <div id="puzzle_canvas_3"></div>
+          <div id="puzzle_canvas_3"></div>
         </div>
         {!isMobileScreen && (
           <div style={{ height: "50px", width: "1px" }}></div>
         )}
+        <button class="pushable" onClick={loadContent}>
+          <span class="shadow"></span>
+          <span class="edge"></span>
+          <span class="front">
+            <span class="yassified-button">Reset</span>
+          </span>
+        </button>
       </div>
     </div>
   );

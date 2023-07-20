@@ -53,7 +53,8 @@
   width: 50%;
   margin: 30px auto;
   border: none;
-  height: 24px
+  height: 24px;
+  
 }
 
 .active-btn {
@@ -64,6 +65,7 @@
   height: 100%;
   width: 33.33%;
   font-size: 14px;
+  text-transform: uppercase;
 }
 
 .disabled-btn {
@@ -74,6 +76,7 @@
   width: 33.33%;
   background-color: #7b8ca6;
   font-size: 14px;
+  text-transform: uppercase;
 }
 
 @media only screen and (max-width: 1024px) {

@@ -91,17 +91,17 @@ const HomePage = () => {
           <button
             className={currentPuzzle === 1 ? "active-btn" : "disabled-btn"}
           >
-            STEP 1
+            step <span style={{fontSize: 15}}>1</span>
           </button>
           <button
             className={currentPuzzle === 2 ? "active-btn" : "disabled-btn"}
           >
-            STEP 2
+            step <span style={{fontSize: 15}}>2</span>
           </button>
           <button
             className={currentPuzzle === 3 ? "active-btn" : "disabled-btn"}
           >
-            STEP 3
+            step <span style={{fontSize: 15}}>3</span>
           </button>
         </div>
         {currentPuzzle === 1 && renderFirstPuzzle()}

@@ -9,7 +9,7 @@ const ThankYou = () => {
         <img
           src={isMobileScreen ? require("../../assets/thank-you-img.png") : require("../../assets/thank-you-img-small.png")}
           alt="all-puzzles"
-          height={isMobileScreen ? 180 : 640}
+          height={isMobileScreen ? 145 : 656}
           width={isMobileScreen ? 300 : 400}
         />
       </div>

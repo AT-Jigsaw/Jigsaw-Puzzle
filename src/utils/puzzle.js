@@ -44,7 +44,7 @@ export const renderPuzzleOne = (showConfetti) => {
 
     puzzle_canvas.registerKeyboardGestures();
 
-    // document.getElementById("reset-button").onclick = () => puzzle_canvas.shuffle(0.8);
+    // document.getElementById("reset-button-1").onclick = () => puzzle_canvas.shuffle(0.8);
     puzzle_canvas.onValid((validator) => complete())
 
     let complete = async () => {
@@ -98,7 +98,7 @@ export const renderPuzzleTwo = (showConfetti) => {
 
     puzzle_canvas.registerKeyboardGestures();
 
-    // document.getElementById("reset-button").onclick = () => puzzle_canvas.shuffle(0.8);
+    // document.getElementById("reset-button-2").onclick = () => puzzle_canvas.shuffle(0.8);
     puzzle_canvas.onValid((validator) => complete())
 
     let complete = async () => {
@@ -152,7 +152,7 @@ export const renderPuzzleThree = (showConfetti) => {
 
     puzzle_canvas.registerKeyboardGestures();
 
-    // document.getElementById("reset-button").onclick = () => puzzle_canvas.shuffle(0.8);
+    // document.getElementById("reset-button-3").onclick = () => puzzle_canvas.shuffle(0.8);
     puzzle_canvas.onValid((validator) => complete())
 
     let complete = async () => {

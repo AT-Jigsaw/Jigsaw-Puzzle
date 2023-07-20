@@ -14,3 +14,79 @@ input:-webkit-autofill:active {
 .modal-content {
   background-color: transparent !important;
 }
+
+.pushable {
+  position: relative;
+  background: transparent;
+  padding: 0;
+  border: none;
+}
+
+.shadow {
+  position: absolute;
+  top: 0px;
+  left: 0;
+  width: 150px;
+  height: 60px;
+  border-radius: 12px;
+  background: #000;
+  transform: translateY(2px);
+}
+
+.edge {
+  position: absolute;
+  top: 0px;
+  left: 0;
+  width: 150px;
+  height: 60px;
+  border-radius: 12px;
+  background: #a30036;
+}
+
+.yassified-button {
+  display: block;
+  position: relative;
+  padding: 12px 42px;
+  border: 2px solid black;
+  border-radius: 12px;
+  color: white;
+  background: #f0003c;
+  transform: translateY(-4px);
+  cursor: pointer;
+  font: 1.25em "HelveticaRounded", serif;
+  font-weight: bold;
+  width: 150px;
+  height: 60px;
+}
+
+.pushable:active .yassified-button {
+  transform: translateY(-6px);
+}
+
+.pushable:active .shadow {
+  transform: translateY(4px);
+}
+
+.pushable:hover .yassified-button {
+  transform: translateY(-2px);
+}
+
+.pushable:hover .shadow {
+  transform: translateY(1px);
+}
+
+.pushable:focus:not(:focus-visible) {
+  outline: none;
+}
+
+@media only screen and (max-width: 1024px) {
+  .shadow, .edge, .yassified-button {
+    width: 120px;
+    height: 45px;
+  }
+
+  .yassified-button {
+    padding: 8px 24px;
+    font: 1.1em "HelveticaRounded", serif;
+  }
+}
