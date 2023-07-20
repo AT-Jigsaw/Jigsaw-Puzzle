@@ -105,12 +105,4 @@
   .header-buttons {
     width: 75%;
   }
-
-  .disabled-btn span, .active-btn span {
-    font-size: 13px;
-  }
-
-  .disabled-btn, .active-btn {
-    font-size: 12px;
-  }
 }
