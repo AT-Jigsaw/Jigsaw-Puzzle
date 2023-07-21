@@ -16,11 +16,11 @@ const AdminDashboard = () => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-  const adminData = data.find((user) => user.email === "admin@gmail.com");
+  const adminData = data.find((user) => user.email === "americantourister876@gmail.com");
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      if (user && user.email === 'admin@gmail.com') {
+      if (user && user.email === 'americantourister876@gmail.com') {
         setIsAdmin(true);
       } else {
         setIsAdmin(false);

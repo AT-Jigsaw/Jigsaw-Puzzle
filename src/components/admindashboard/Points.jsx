@@ -39,7 +39,7 @@ const Points = (props) => {
           </thead>
           <tbody>
             {sortedData.map((row) => {
-              if (row.email !== "admin@gmail.com") {
+              if (row.email !== "americantourister876@gmail.com") {
                 return (
                   <tr key={row.id}>
                     <td>{row.fullName}</td>
