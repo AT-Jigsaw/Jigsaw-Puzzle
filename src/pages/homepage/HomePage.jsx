@@ -7,6 +7,7 @@ import AdditionalDetails from "../../components/additionaldetails/AdditionalDeta
 import { Modal, Button } from "react-bootstrap";
 import "./homepage.css";
 import ThankYou from "../../components/ThankYou/Thankyou";
+import TandC from "../../components/TandC/TandC";
 
 const HomePage = () => {
   const [completed, setCompleted] = useState(0);
@@ -16,6 +17,7 @@ const HomePage = () => {
   const [timer, setTimer] = useState(0);
   const intervalRef = useRef();
   const [currentPuzzle, setCurrentPuzzle] = useState(1);
+  const [showTandC, setShowTandC] = useState(false);
 
   useEffect(() => {
     if (completed === 3) {
@@ -42,7 +44,10 @@ const HomePage = () => {
     return (
       <div className="first-puzzle-root">
         <div className="puzzle-containers">
-          <FirstPuzzle setCompleted={setCompleted} />
+          <FirstPuzzle
+            setCompleted={setCompleted}
+            setShowTandC={setShowTandC}
+          />
         </div>
       </div>
     );
@@ -52,7 +57,10 @@ const HomePage = () => {
     return (
       <div className="second-puzzle-root">
         <div className="puzzle-containers">
-          <SecondPuzzle setCompleted={setCompleted} />
+          <SecondPuzzle
+            setCompleted={setCompleted}
+            setShowTandC={setShowTandC}
+          />
         </div>
       </div>
     );
@@ -62,7 +70,10 @@ const HomePage = () => {
     return (
       <div className="third-puzzle-root">
         <div className="puzzle-containers">
-          <ThirdPuzzle setCompleted={setCompleted} />
+          <ThirdPuzzle
+            setCompleted={setCompleted}
+            setShowTandC={setShowTandC}
+          />
         </div>
       </div>
     );
@@ -138,6 +149,10 @@ const HomePage = () => {
 
         <Modal show={showThankYouModal} centered backdrop="static" size="xl">
           <ThankYou />
+        </Modal>
+
+        <Modal show={showTandC} centered onHide={() => setShowTandC(false)}>
+          <TandC />
         </Modal>
       </div>
     </div>

@@ -3,12 +3,12 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDjAlRcCAmzsrgE9AwN7ie_zvKMO7OpV4c",
-  authDomain: "puzzle-5b0e7.firebaseapp.com",
-  projectId: "puzzle-5b0e7",
-  storageBucket: "puzzle-5b0e7.appspot.com",
-  messagingSenderId: "800674090772",
-  appId: "1:800674090772:web:a2d4cf761faf21eb51fc01",
+  apiKey: "AIzaSyBxy5rMkLVmyZ9paSxqJSW-LPwN0yV7cOE",
+  authDomain: "jigsaw-puzzle-c3302.firebaseapp.com",
+  projectId: "jigsaw-puzzle-c3302",
+  storageBucket: "jigsaw-puzzle-c3302.appspot.com",
+  messagingSenderId: "887465593231",
+  appId: "1:887465593231:web:892e6c804c0850f6f163fa"
 };
 
 const app = initializeApp(firebaseConfig);

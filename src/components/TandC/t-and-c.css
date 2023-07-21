@@ -1,0 +1,12 @@
+.t-and-c-root {
+    font-family: "HelveticaRounded", sans-serif;
+    background-color: #e1e1db;
+    padding: 20px 40px;
+    font-size: 22px;
+    border-radius: 8px;
+}
+
+.t-and-c-root div {
+    font-family: "OmnesReg", sans-serif;
+    font-size: 18px;
+}

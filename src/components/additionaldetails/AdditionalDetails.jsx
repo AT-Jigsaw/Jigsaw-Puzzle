@@ -42,7 +42,7 @@ const AdditionalDetails = ({
       );
       const userSnap = await getDocs(q);
 
-      if (userSnap.size) {
+      if (userSnap.size > 1) {
         return toast.error("You have already completed the puzzle.");
       }
       const uid = uuidv4();
