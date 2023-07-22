@@ -7,7 +7,7 @@ const ThankYou = () => {
     <div className="thank-you-container">
       <div className="images-container">
         <img
-          src={isMobileScreen ? require("../../assets/thank-you-img.png") : require("../../assets/thank-you-img-small.png")}
+          src={isMobileScreen ? require("../../assets/thank-you-img.jpg") : require("../../assets/thank-you-img-small.jpg")}
           alt="all-puzzles"
           height={isMobileScreen ? 145 : 656}
           width={isMobileScreen ? 300 : 400}

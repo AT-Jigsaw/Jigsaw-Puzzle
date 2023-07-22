@@ -3,7 +3,7 @@ import headbreaker from 'headbreaker';
 export const renderPuzzleOne = (showConfetti) => {
   const isMobileScreen = window.innerWidth < 1024;
   let picture = new Image();
-  picture.src = isMobileScreen ? require('../assets/puzzle-1-small.png') : require('../assets/puzzle-1.png')
+  picture.src = isMobileScreen ? require('../assets/puzzle-1-small.png') : require('../assets/puzzle-1.jpg')
   picture.onload = () => {
     let canvasWidth = isMobileScreen ? 300 : 1240;
     let canvasHeight = isMobileScreen ? 450 : 720;
@@ -58,7 +58,7 @@ export const renderPuzzleOne = (showConfetti) => {
 export const renderPuzzleTwo = (showConfetti) => {
   const isMobileScreen = window.innerWidth < 1024;
   let picture = new Image();
-  picture.src = isMobileScreen ? require('../assets/puzzle-2-small.png') : require('../assets/puzzle-2.png')
+  picture.src = isMobileScreen ? require('../assets/puzzle-2-small.png') : require('../assets/puzzle-2.jpg')
   picture.onload = () => {
     let canvasWidth = isMobileScreen ? 300 : 1240;
     let canvasHeight = isMobileScreen ? 450 : 720;
@@ -112,7 +112,7 @@ export const renderPuzzleTwo = (showConfetti) => {
 export const renderPuzzleThree = (showConfetti) => {
   const isMobileScreen = window.innerWidth < 1024;
   let picture = new Image();
-  picture.src = isMobileScreen ? require('../assets/puzzle-3-small.png') : require('../assets/puzzle-3.png')
+  picture.src = isMobileScreen ? require('../assets/puzzle-3-small.jpg') : require('../assets/puzzle-3.jpg')
   picture.onload = () => {
     let canvasWidth = isMobileScreen ? 300 : 1240;
     let canvasHeight = isMobileScreen ? 450 : 720;
