@@ -87,7 +87,7 @@ const HomePage = () => {
 
   return (
     <div>
-      <Header />
+      {/* <Header />
       <div className="fixed-timer">Time Elapsed: {timer} s</div>
       <div style={{ background: getBackgroundColor() }}>
         <img
@@ -154,7 +154,7 @@ const HomePage = () => {
         <Modal show={showTandC} centered onHide={() => setShowTandC(false)}>
           <TandC />
         </Modal>
-      </div>
+      </div> */}
     </div>
   );
 };
